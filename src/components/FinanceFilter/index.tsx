@@ -22,7 +22,11 @@ type DateItemType = {
   selected: boolean;
 };
 
-export const FinanceFilter: React.FC = () => {
+type FinanceFilterTypes = {
+  title: string;
+}
+
+export const FinanceFilter: React.FC<FinanceFilterTypes> = ({title}: FinanceFilterTypes) => {
   const [selectedLanguage, setSelectedLanguage] = useState('month');
   const [periods, setPeriods] = useState(months);
   const [dateItemList, setDateItemList] = useState<DateItemType[]>([]);
@@ -54,6 +58,18 @@ export const FinanceFilter: React.FC = () => {
 
   const handleSelectDate = (value: any) => {
     console.log('VALUE', value);
+    const updatedDateList = dateItemList.map(ele => {
+      if(ele.id === value.id) {
+        const updatedDate = Object.assign({}, {...ele}, {selected: true});
+        return updatedDate;
+      }
+      else {
+        const updatedDate = Object.assign({}, { ...ele }, { selected: false });
+        return updatedDate;
+
+      }
+    })
+    setDateItemList(updatedDateList);
     return;
   };
 
@@ -66,12 +82,12 @@ export const FinanceFilter: React.FC = () => {
       };
     });
     setDateItemList(currentDateList);
-  }, []);
+  }, [periods]);
 
   return (
     <Wrapper>
       <FilterWrapper>
-        <Title>{strings.financeFilterTitle}</Title>
+        <Title>{title}</Title>
         <PickerWrapper>
           <PeriodPicker
             ref={pickerRef}
@@ -101,12 +117,13 @@ export const FinanceFilter: React.FC = () => {
         </PickerWrapper>
       </FilterWrapper>
       <DateList
+        showsHorizontalScrollIndicator={false}
         data={dateItemList}
         horizontal
         keyExtractor={date => date.id}
         renderItem={date => (
-          <DateButton onPress={date => handleSelectDate(date)}>
-            <DateButtonText>{date.item.date}</DateButtonText>
+          <DateButton onPress={() => handleSelectDate(date.item)} selected={date.item.selected}>
+            <DateButtonText selected={date.item.selected}>{date.item.date}</DateButtonText >
           </DateButton>
         )}
       />

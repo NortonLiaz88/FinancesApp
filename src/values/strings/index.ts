@@ -1,5 +1,6 @@
 export const strings = {
-  financeFilterTitle: ' Income and Expenses',
+  financeFilterTitle: 'Income and Expenses',
+  financeBudgetFilterTitle: 'Your Budget',
   financeFilterPeriodLabel: {
     year: 'Yearly',
     month: 'Monthly',

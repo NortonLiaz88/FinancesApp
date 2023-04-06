@@ -54,8 +54,14 @@ export const DateButton = styled.TouchableOpacity<DateButtonTypes>`
       background-color: ${({theme}) => theme.colors.endGradientColor};
     `};
 `;
-export const DateButtonText = styled.Text`
+export const DateButtonText = styled.Text<DateButtonTypes>`
   color: ${({theme}) => theme.colors.endGradientColor};
   font-size: ${RFValue(12)}px;
   font-weight: bold;
+
+   ${props =>
+    props.selected &&
+    css`
+      color: ${({theme}) => theme.colors.background};
+    `};
 `;
