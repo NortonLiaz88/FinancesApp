@@ -1,8 +1,8 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Octicons from 'react-native-vector-icons/Octicons';
 import {HomeScreen} from '../pages/Home';
 import {RFValue} from 'react-native-responsive-fontsize';
 import { TabIcon } from '../components/TabIcon';
+import theme from '../styles/theme';
 const Tab = createBottomTabNavigator();
 
 export const AppTabRoutes = () => {
@@ -14,13 +14,11 @@ export const AppTabRoutes = () => {
           height: 80,
           alignItems: 'flex-start',
         },
-        tabBarActiveTintColor: 'tomato',
         tabBarShowLabel: true,
-
         tabBarLabelStyle: {
           fontSize: RFValue(10),
           textTransform: 'capitalize',
-          color: '#417d7a',
+          color: theme.colors.initialGradientColor,
         },
         headerShown: false,
       }}>
@@ -28,8 +26,8 @@ export const AppTabRoutes = () => {
         name="Home"
         component={HomeScreen}
         options={{
-          tabBarIcon: props => {
-            return <TabIcon active={props.focused} icon='home'/>
+          tabBarIcon: ({focused}) => {
+            return <TabIcon active={focused} icon='home'/>
           },
           tabBarLabel: 'Home',
         }}
@@ -38,8 +36,8 @@ export const AppTabRoutes = () => {
         name="Status"
         component={HomeScreen}
         options={{
-            tabBarIcon: props => {
-                return <TabIcon active={props.focused} icon='graph'/>
+            tabBarIcon: ({focused}) => {
+                return <TabIcon active={focused} icon='graph'/>
               },
           tabBarLabel: 'Status',
         }}
@@ -48,18 +46,18 @@ export const AppTabRoutes = () => {
         name="Budget"
         component={HomeScreen}
         options={{
-          tabBarIcon: props => (
-            <Octicons name={'file-directory'} size={24} color={'#417d7a'} />
-          ),
+          tabBarIcon: ({focused}) => {
+            return <TabIcon active={focused} icon='file-directory'/>
+          },
         }}
       />
       <Tab.Screen
         name="Person"
         component={HomeScreen}
         options={{
-          tabBarIcon: props => (
-            <Octicons name="person" size={24} color={'#417d7a'} />
-          ),
+          tabBarIcon: ({focused}) => {
+            return <TabIcon active={focused} icon='person'/>
+          },
         }}
       />
     </Tab.Navigator>
