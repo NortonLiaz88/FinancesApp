@@ -8,7 +8,7 @@ export interface Amount {
     currency: Currency;
 }
 
-enum AmountType {
+export enum AmountType {
     INCOME = 'income',
     EXPENSE = 'expense',
 }

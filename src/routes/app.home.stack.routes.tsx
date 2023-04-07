@@ -2,6 +2,7 @@ import React from 'react';
 import { HomeScreen } from '../screens/Home';
 import { TransactionScreen } from '../screens/Transaction';
 import {createStackNavigator} from '@react-navigation/stack';
+import { TransactionStackRoutes } from './app.transaction.stack.routes';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -23,7 +24,7 @@ export const HomeStackRoutes = (): JSX.Element => {
       />
       <Screen
         name="Transaction"
-        component={TransactionScreen}
+        component={TransactionStackRoutes}
         options={{
           headerShown: false,
         }}

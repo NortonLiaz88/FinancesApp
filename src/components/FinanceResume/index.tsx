@@ -1,20 +1,35 @@
 import React from 'react';
 import {FinanceResumeWrapper} from './styles';
 import {FinanceCard} from '../FinanceCard';
+import {AmountType} from '../../models/Amount';
 
-type FinanceResumeTypes = {
-  incomeAmount: string;
-  expenseAmountTabLabel: string;
-};
+interface IFinanceResume {
+  incomeAmount?: string;
+  expenseAmountTabLabel?: string;
+  transactionAction?: (value: AmountType) => void;
+}
 
-export const FinanceResume: React.FC<FinanceResumeTypes> = ({
+export const FinanceResume: React.FC<IFinanceResume> = ({
   incomeAmount,
   expenseAmountTabLabel,
-}: FinanceResumeTypes) => {
+  transactionAction,
+}: IFinanceResume) => {
   return (
     <FinanceResumeWrapper>
-      <FinanceCard type="income" amount={incomeAmount} />
-      <FinanceCard type="expense" amount={expenseAmountTabLabel}/>
+      <FinanceCard
+        amount={incomeAmount}
+        onPress={() =>
+          transactionAction ? transactionAction(AmountType.INCOME) : () => null
+        }
+        type="income"
+      />
+      <FinanceCard
+        amount={expenseAmountTabLabel}
+        onPress={() =>
+          transactionAction ? transactionAction(AmountType.EXPENSE) : () => null
+        }
+        type="expense"
+      />
     </FinanceResumeWrapper>
   );
 };

@@ -7,16 +7,18 @@ import {
   Title,
 } from './styles';
 
-type FinanceCardTypes = {
+interface IFinanceCard {
   type: 'income' | 'expense';
   amount?: string;
+  onPress: () => void;
 };
 
-export const FinanceCard: React.FC<FinanceCardTypes> = ({
+export const FinanceCard: React.FC<IFinanceCard> = ({
   type,
   amount,
-}: FinanceCardTypes) => (
-  <CardWrapper>
+  onPress,
+}: IFinanceCard) => (
+  <CardWrapper onPress={() => onPress()}>
     {type === 'income' ? (
       <>
         <ArrowDownIcon />
