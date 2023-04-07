@@ -13,4 +13,9 @@ export const strings = {
     week: 'week',
     day: 'day',
   },
+  transaction: {
+    firstStep: {
+      title: 'What kind of\ntransaction it is?'
+    }
+  }
 };

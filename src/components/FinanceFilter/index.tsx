@@ -81,6 +81,7 @@ export const FinanceFilter: React.FC<FinanceFilterTypes> = ({title}: FinanceFilt
         selected: false,
       };
     });
+    console.log(currentDateList);
     setDateItemList(currentDateList);
   }, [periods]);
 

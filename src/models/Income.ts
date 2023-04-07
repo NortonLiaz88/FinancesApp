@@ -4,7 +4,7 @@ export interface Income extends Amount {
     category: IncomeCategory
 }
 
-enum IncomeCategory {
+export enum IncomeCategory {
     SALARY = 'salary',
     FREELANCE = 'freelance',
     INVESTMENT = 'investment',

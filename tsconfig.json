@@ -11,7 +11,8 @@
       "./src/@types/service",
       "jest",
       "@types/styled-components-react-native"
-    ],                             /* Skip type checking all .d.ts files. */
+    ],    
+    "noImplicitAny": false                         /* Skip type checking all .d.ts files. */
   },
  
 }

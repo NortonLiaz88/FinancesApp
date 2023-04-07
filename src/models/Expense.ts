@@ -4,7 +4,7 @@ export interface Expense extends Amount {
     category: ExpenseCategory
 }
 
-enum ExpenseCategory {
+export enum ExpenseCategory {
     CAR = 'car',
     EDUCATION= 'education',
     PHONE= 'phone',

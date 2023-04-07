@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/Octicons';
 import globalTheme from "../../styles/theme";
 import { RFValue } from "react-native-responsive-fontsize";
 
-export const CardWrapper = styled.View`
+export const CardWrapper = styled.TouchableOpacity`
     padding: ${hp(2.5)}px ${wp(8)}px;
     background: ${({theme}) => theme.colors.card};
     align-items: center;

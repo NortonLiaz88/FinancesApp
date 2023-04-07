@@ -1,8 +1,9 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {HomeScreen} from '../pages/Home';
+import {HomeScreen} from '../screens/Home';
 import {RFValue} from 'react-native-responsive-fontsize';
 import { TabIcon } from '../components/TabIcon';
 import theme from '../styles/theme';
+import { HomeStackRoutes } from './app.home.stack.routes';
 const Tab = createBottomTabNavigator();
 
 export const AppTabRoutes = () => {
@@ -23,8 +24,8 @@ export const AppTabRoutes = () => {
         headerShown: false,
       }}>
       <Tab.Screen
-        name="Home"
-        component={HomeScreen}
+        name="HomeStack"
+        component={HomeStackRoutes}
         options={{
           tabBarIcon: ({focused}) => {
             return <TabIcon active={focused} icon='home'/>
