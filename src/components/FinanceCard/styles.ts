@@ -1,7 +1,6 @@
 import styled from "styled-components/native";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import Icon from 'react-native-vector-icons/Octicons';
-import globalTheme from "../../styles/theme";
 import { RFValue } from "react-native-responsive-fontsize";
 
 export const CardWrapper = styled.TouchableOpacity`
@@ -12,17 +11,17 @@ export const CardWrapper = styled.TouchableOpacity`
     border-radius: 24px;
 `;
 
-export const ArrowUpIcon = styled(Icon).attrs({
+export const ArrowUpIcon = styled(Icon).attrs(({theme}) => ({
     size: 72,
-    color: globalTheme.colors.initialGradientColorSecondary,
+    color: theme.colors.initialGradientColorSecondary,
     name: 'arrow-up'
-})``;
+}))``;
 
-export const ArrowDownIcon = styled(Icon).attrs({
+export const ArrowDownIcon = styled(Icon).attrs(({theme}) => ({
     size: 72,
-    color: globalTheme.colors.initialGradientColor,
+    color: theme.colors.initialGradientColor,
     name: 'arrow-down'
-})``;
+}))``;
 
 export const Title = styled.Text`
     color: ${({theme}) => theme.colors.endGradientColor};

@@ -1,21 +1,28 @@
 import React from 'react';
-import {Text} from 'react-native';
-import {PageWrapper} from '../../../../../components/Screen/styles';
 import {TransactionHeader} from '../../Header';
 import {useTransaction} from '../../../hooks/useTransaction';
 import TransactionProgress from '../../TransactionProgress';
-import { StepperWrapper } from '../styles';
-import { ExpenseWrapper } from './styles';
+import {ExpenseWrapper, VerticalDivider} from './styles';
+import {TransactionTypeComponent} from '../../TransactionType';
+import {AmountType} from '../../../../../models/Amount';
+import {Payee} from '../../Payee';
+import {expenseCategoryToIcon} from '../../../../../utils/expensetoIcon';
+import {ExpenseCategory} from '../../../../../models/Expense';
 
 export const ExpenseCategoryStep = () => {
   const {handleSelectTransactionType, stepProgress} = useTransaction();
 
   return (
-   <ExpenseWrapper>
+    <ExpenseWrapper>
       <TransactionHeader />
-      <Text style={{color: 'tomato'}}>RAPAZ</Text>
+      <VerticalDivider />
       <TransactionProgress progress={stepProgress} />
-
+      <TransactionTypeComponent type={AmountType.EXPENSE} />
+      <Payee
+        icon={expenseCategoryToIcon(ExpenseCategory.TRAVEL)}
+        name={'Dubai Travel'}
+        category={ExpenseCategory.TRAVEL}
+      />
     </ExpenseWrapper>
   );
 };
