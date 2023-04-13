@@ -1,16 +1,20 @@
-import React from 'react'
-import { BackButton, HeaderWrapper, Title } from './styles'
-import { useNavigation } from '@react-navigation/native'
+import React from 'react';
+import {BackButton, ButtonWrapper, HeaderWrapper, Title} from './styles';
+import {useNavigation} from '@react-navigation/native';
 
 export const TransactionHeader: React.FC = () => {
   const {goBack} = useNavigation();
 
   const handleBack = () => {
-    goBack()
-  }
+    goBack();
+  };
 
-  return (<HeaderWrapper>
-    <BackButton  onPress={handleBack}/>
-    <Title>Add Transaction</Title>
-  </HeaderWrapper>)
-}
+  return (
+    <HeaderWrapper>
+      <ButtonWrapper onPress={handleBack} >
+        <BackButton />
+      </ButtonWrapper>
+      <Title>Add Transaction</Title>
+    </HeaderWrapper>
+  );
+};
