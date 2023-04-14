@@ -6,6 +6,7 @@ import {
 import {RFValue} from 'react-native-responsive-fontsize';
 
 export const ExpenseWrapper = styled.ScrollView`
+  flex: 1;
   padding: ${hp(2)}px ${wp(3)}px;
   padding-bottom: ${hp(5)}px;
 `;
@@ -47,4 +48,8 @@ export const CategoryWrapper = styled.View`
 export const CategoryName = styled.Text`
   color: ${({theme}) => theme.colors.endGradientColor};
   font-size: ${RFValue(12)}px;
+`;
+
+export const ButtonWrapper = styled.View`
+  margin: ${hp(2)}px 0 ${hp(4)}px 0px;
 `;

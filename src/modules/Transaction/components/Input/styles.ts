@@ -5,7 +5,8 @@ interface Props {
   isFocused: boolean;
 }
 
-export const InputWrapper = styled.View<Props>``;
+export const InputWrapper = styled.View<Props>`
+`;
 
 export const Label = styled.Text`
   color: ${({theme}) => theme.colors.text};

@@ -8,7 +8,7 @@ import {
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import FontAwesomeIconSecondary from 'react-native-vector-icons/FontAwesome5';
 
-export const CategoryWrapper = styled.View`
+export const CategoryWrapper = styled.TouchableOpacity`
   background: ${({theme}) => theme.colors.button};
   align-items: center;
   justify-content: center;

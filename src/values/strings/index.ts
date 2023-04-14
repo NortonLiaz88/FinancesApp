@@ -22,7 +22,21 @@ export const strings = {
         inputLabel: 'Payye name',
         inputPlaceholder: 'Enter payye name',
         chooseCategory: 'Choose Category'
-      }
+      },
+      descriptionStep: {
+        inputAmount: {
+          label: 'Amount',
+          placeholder: 'Enter amount',
+        },
+        inputDate: {
+          label: 'Date',
+          placeholder: 'Select date'
+        }
+      },
+    },
+    lastStep: {
+      title: 'Congratulation!',
+      message: 'Your transaction is added succeessfully in expence'
     }
   }
 };

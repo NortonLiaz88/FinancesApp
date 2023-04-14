@@ -1,8 +1,9 @@
 import React from 'react';
-import {TransactionHeader} from '../../Header';
-import {useTransaction} from '../../../hooks/useTransaction';
-import TransactionProgress from '../../TransactionProgress';
+import {TransactionHeader} from '../../../Header';
+import {useTransaction} from '../../../../hooks/useTransaction';
+import TransactionProgress from '../../../TransactionProgress';
 import {
+  ButtonWrapper,
   CategoriesContentWrapper,
   CategoriesDescription,
   CategoriesWrapper,
@@ -12,17 +13,23 @@ import {
   InputWrapper,
   VerticalDivider,
 } from './styles';
-import {TransactionTypeComponent} from '../../TransactionType';
-import {AmountType} from '../../../../../models/Amount';
-import {Payee} from '../../Payee';
-import {expenseCategoryToIcon} from '../../../../../utils/expensetoIcon';
-import {ExpenseCategory} from '../../../../../models/Expense';
-import {Input} from '../../Input';
-import {ExpenseCategoryComponent} from '../../ExpenseCategory';
-import {strings} from '../../../../../values/strings';
+import {TransactionTypeComponent} from '../../../TransactionType';
+import {AmountType} from '../../../../../../models/Amount';
+import {expenseCategoryToIcon} from '../../../../../../utils/expensetoIcon';
+import {ExpenseCategory} from '../../../../../../models/Expense';
+import {Input} from '../../../Input';
+import {ExpenseCategoryComponent} from '../../../ExpenseCategory';
+import {strings} from '../../../../../../values/strings';
+import PrimaryButton from '../../../../../../components/PrimaryButton';
+import {useNavigation} from '@react-navigation/native';
 
 export const ExpenseCategoryStep = () => {
+  const {navigate} = useNavigation();
   const {handleSelectTransactionType, stepProgress} = useTransaction();
+
+  const handleNextStep = () => {
+    navigate('ExpenseDescriptionStep');
+  };
 
   return (
     <ExpenseWrapper>
@@ -30,11 +37,6 @@ export const ExpenseCategoryStep = () => {
       <VerticalDivider />
       <TransactionProgress progress={stepProgress} />
       <TransactionTypeComponent type={AmountType.EXPENSE} />
-      <Payee
-        icon={expenseCategoryToIcon(ExpenseCategory.TRAVEL)}
-        name={'Dubai Travel'}
-        category={ExpenseCategory.TRAVEL}
-      />
       <InputWrapper>
         <Input
           label={strings.transaction.expenseSteps.addTransactionStep.inputLabel}
@@ -58,6 +60,14 @@ export const ExpenseCategoryStep = () => {
           })}
         </CategoriesContentWrapper>
       </CategoriesWrapper>
+      <ButtonWrapper>
+        <PrimaryButton
+          testID="Expense.Step.Transaction"
+          accessibilityLabel="button.continue"
+          text={'Continue'}
+          onPress={() => handleNextStep()}
+        />
+      </ButtonWrapper>
     </ExpenseWrapper>
   );
 };
