@@ -5,7 +5,7 @@ import {
 } from 'react-native-responsive-screen';
 import {RFValue} from 'react-native-responsive-fontsize';
 
-export const CongratulationWrapper = styled.View`
+export const CongratulationWrapper = styled.ScrollView`
   padding: ${hp(2)}px ${wp(3)}px;
   flex: 1;
 `;
@@ -67,4 +67,14 @@ export const TicketDivider =  styled.View`
   border-width: 1px;
   border-radius: 1;
   width: 100%;
+`;
+
+export const EditButtonWrapper = styled.View`
+    width: ${wp(20)};
+    height: ${hp(4.5)};
+`;
+
+
+export const ButtonWrapper = styled.View`
+  margin: ${hp(2)}px 0 ${hp(4)}px 0px;
 `;

@@ -3,14 +3,16 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
+import { useNavigation } from '@react-navigation/native';
 
 import {
+  ButtonWrapper,
   CongratsMessage,
   CongratsTitle,
   CongratulationWrapper,
   ContentWrapper,
   DetailSeparator,
-  TicketDivider,
+  EditButtonWrapper,
   TransactionContentWrapper,
   TransactionDetailWrapper,
   TransactionName,
@@ -18,6 +20,7 @@ import {
   TransactionType,
   VerticalDivider,
 } from './styles';
+
 import {TransactionHeader} from '../../Header';
 import TransactionProgress from '../../TransactionProgress';
 import {useTransaction} from '../../../hooks/useTransaction';
@@ -25,17 +28,30 @@ import {useTransaction} from '../../../hooks/useTransaction';
 import FinishTransactionLogo from '../../../../../assets/finish_transaction.svg';
 import {strings} from '../../../../../values/strings';
 import {toTitleCase} from '../../../../../utils/titleCase';
-import Svg, {G, Rect} from 'react-native-svg';
-import theme from '../../../../../styles/theme';
+import {DotedLine} from '../../../../../components/DotedLine';
+import OutlineButton from '../../../../../components/OutlineButton';
+import PrimaryButton from '../../../../../components/PrimaryButton';
 
 export const CongratulationStep = () => {
   const {
-    handleSelectTransactionType,
+    finishTransaction,
+    editTransaction,
     stepProgress,
     transactionType,
     transactionName,
     transactionDate,
+    transactionAmount,
   } = useTransaction();
+
+
+  const handleFinishTransaction = async () => {
+    await finishTransaction();
+  }
+
+  const handleEdit = async () => {
+    editTransaction()
+    
+  }
 
   const spacing = 16;
   const dashes = new Array(Math.floor(wp(100) / spacing)).fill(null);
@@ -66,31 +82,43 @@ export const CongratulationStep = () => {
         <TransactionDetailWrapper>
           <TransactionTagWrapper>
             <TransactionType>Transaction type</TransactionType>
-            <TransactionName>{toTitleCase(transactionType)}</TransactionName>
+            <TransactionName>{toTitleCase(transactionType??  '')}</TransactionName>
           </TransactionTagWrapper>
           <DetailSeparator />
           <TransactionTagWrapper>
             <TransactionType>Date</TransactionType>
-            <TransactionName>{transactionDate.toDateString()}</TransactionName>
+            <TransactionName>{transactionDate?.toDateString()}</TransactionName>
           </TransactionTagWrapper>
         </TransactionDetailWrapper>
         <VerticalDivider />
-        <Svg height="11" width="100%">
-          <G>
-            {dashes.map((_, index) => (
-              <Rect
-                key={index}
-                x="11"
-                y="10"
-                width="10"
-                height="1"
-                fill={theme.colors.endGradientColor}
-                translateX={spacing * index}
+        <DotedLine dashes={dashes} spacing={spacing} />
+        <VerticalDivider />
+        <TransactionDetailWrapper>
+          <TransactionTagWrapper>
+            <TransactionType>Transaction amount</TransactionType>
+            <TransactionName>${transactionAmount ?? ''}</TransactionName>
+          </TransactionTagWrapper>
+          <TransactionTagWrapper>
+            <EditButtonWrapper>
+              <OutlineButton
+                testID="Transaction.Step.Congratulation"
+                text={'Edit'}
+                accessibilityLabel="button.edit"
+                onPress={() => handleEdit()}
               />
-            ))}
-          </G>
-        </Svg>
+            </EditButtonWrapper>
+          </TransactionTagWrapper>
+        </TransactionDetailWrapper>
       </TransactionContentWrapper>
+      <VerticalDivider />
+      <ButtonWrapper>
+        <PrimaryButton
+          testID="Transaction.Step.Congratulation"
+          text={'Go to home '}
+          accessibilityLabel="button.edit"
+          onPress={() => handleFinishTransaction()}
+        />
+      </ButtonWrapper>
     </CongratulationWrapper>
   );
 };

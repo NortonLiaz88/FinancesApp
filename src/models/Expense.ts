@@ -1,6 +1,6 @@
-import { Amount } from "./Amount";
+import { TransactionDTO } from "./Transaction";
 
-export interface Expense extends Amount {
+export interface Expense extends TransactionDTO {
     category: ExpenseCategory
 }
 

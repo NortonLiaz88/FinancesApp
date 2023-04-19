@@ -6,7 +6,7 @@ import {
   PayeeWrapper,
   Title,
 } from './styles';
-import { ExpenseCategoryComponent } from '../ExpenseCategory';
+import { CategoryComponent } from '../ExpenseCategory';
 
 interface Props {
   icon: string;
@@ -17,7 +17,7 @@ interface Props {
 export const Payee: React.FC<Props> = ({icon, name}: Props) => {
   return (
     <PayeeWrapper>
-      <ExpenseCategoryComponent icon={icon} />
+      <CategoryComponent icon={icon} />
       <MessageWrapper>
         <Description>Payee</Description>
         <Title>{name}</Title>

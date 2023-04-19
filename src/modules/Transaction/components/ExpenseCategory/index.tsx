@@ -1,18 +1,19 @@
 import React from 'react';
 import {ExpenseCategory} from '../../../../models/Expense';
 import {CategoryWrapper, PrimaryIcon, SecondaryIcon} from './styles';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import { TouchableOpacityProps } from 'react-native';
+import { IncomeCategory } from '../../../../models/Income';
 
-interface Props {
+interface Props extends TouchableOpacityProps {
   icon: string;
-  category?: ExpenseCategory;
+  category?: ExpenseCategory | IncomeCategory;
 }
 
-export const ExpenseCategoryComponent: React.FC<Props> = ({icon, category}) => {
+export const CategoryComponent: React.FC<Props> = ({icon, category, ...rest}) => {
   const primaryIconExist = PrimaryIcon.hasIcon(icon);
 
   return (
-      <CategoryWrapper>
+      <CategoryWrapper {...rest}>
         {primaryIconExist ? (
           <PrimaryIcon name={icon} />
         ) : (

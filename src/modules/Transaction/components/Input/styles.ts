@@ -14,6 +14,7 @@ export const Label = styled.Text`
 `;
 
 export const InputText = styled.TextInput<Props>`
+color: ${({theme}) => theme.colors.text};
   border-bottom-width: 2px;
   border-bottom-color: ${({theme}) => theme.colors.endGradientColor};
   ${({isFocused, theme}) =>

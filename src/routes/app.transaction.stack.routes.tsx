@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {TransactionScreen} from '../screens/Transaction';
 import {createStackNavigator} from '@react-navigation/stack';
-import {ExpenseCategoryStep} from '../modules/Transaction/components/Stepper/ExpenseSteps/ChooseCategory';
+import {CategoryStep} from '../modules/Transaction/components/Stepper/ChooseCategory';
 import { TransactionProvider } from '../modules/Transaction/hooks/useTransaction';
-import { ExpenseDescriptionStep } from '../modules/Transaction/components/Stepper/ExpenseSteps/Description';
 import { CongratulationStep } from '../modules/Transaction/components/Stepper/CongratulationStep';
+import { DescriptionStep } from '../modules/Transaction/components/Stepper/Description';
+import { BackHandler } from 'react-native';
 
 export type RootStackParamList = {
   TransactionHome: undefined;
-  ExpenseCategoryStep: undefined;
-  ExpenseDescriptionStep: undefined;
+  CategoryStep: undefined;
+  DescriptionStep: undefined;
   CongratulationStep: undefined;
   Splash: undefined;
 };
@@ -17,6 +18,13 @@ export type RootStackParamList = {
 const {Navigator, Screen} = createStackNavigator<RootStackParamList>();
 
 export const TransactionStackRoutes = (): JSX.Element => {
+
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", () => {
+      return true;
+    });
+  });
+
   return (
     <TransactionProvider>
       <Navigator initialRouteName="TransactionHome">
@@ -28,15 +36,15 @@ export const TransactionStackRoutes = (): JSX.Element => {
           }}
         />
         <Screen
-          name="ExpenseCategoryStep"
-          component={ExpenseCategoryStep}
+          name="CategoryStep"
+          component={CategoryStep}
           options={{
             headerShown: false,
           }}
         />
         <Screen
-          name="ExpenseDescriptionStep"
-          component={ExpenseDescriptionStep}
+          name="DescriptionStep"
+          component={DescriptionStep}
           options={{
             headerShown: false,
           }}

@@ -1,6 +1,7 @@
 import { Currency } from "./Currency";
 
-export interface Amount {
+export interface TransactionDTO {
+    id?: string;
     date: Date;
     value: number;
     type: AmountType;
