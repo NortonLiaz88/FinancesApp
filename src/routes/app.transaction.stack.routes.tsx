@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import {TransactionScreen} from '../screens/Transaction';
 import {createStackNavigator} from '@react-navigation/stack';
 import {CategoryStep} from '../modules/Transaction/components/Stepper/ChooseCategory';
-import { TransactionProvider } from '../modules/Transaction/hooks/useTransaction';
 import { CongratulationStep } from '../modules/Transaction/components/Stepper/CongratulationStep';
 import { DescriptionStep } from '../modules/Transaction/components/Stepper/Description';
 import { BackHandler } from 'react-native';
@@ -26,7 +25,6 @@ export const TransactionStackRoutes = (): JSX.Element => {
   });
 
   return (
-    <TransactionProvider>
       <Navigator initialRouteName="TransactionHome">
         <Screen
           name="TransactionHome"
@@ -57,6 +55,5 @@ export const TransactionStackRoutes = (): JSX.Element => {
           }}
         />
       </Navigator>
-    </TransactionProvider>
   );
 };

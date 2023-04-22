@@ -1,9 +1,9 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {HomeScreen} from '../screens/Home';
 import {RFValue} from 'react-native-responsive-fontsize';
-import { TabIcon } from '../components/TabIcon';
+import {TabIcon} from '../components/TabIcon';
 import theme from '../styles/theme';
-import { HomeStackRoutes } from './app.home.stack.routes';
+import {HomeStackRoutes} from './app.home.stack.routes';
 const Tab = createBottomTabNavigator();
 
 export const AppTabRoutes = () => {
@@ -24,22 +24,32 @@ export const AppTabRoutes = () => {
         headerShown: false,
       }}>
       <Tab.Screen
-        name="HomeStack"
-        component={HomeStackRoutes}
+        name="Home"
+        component={HomeScreen}
         options={{
           tabBarIcon: ({focused}) => {
-            return <TabIcon active={focused} icon='home'/>
+            return <TabIcon active={focused} icon="home" />;
           },
           tabBarLabel: 'Home',
         }}
       />
+      {/* <Tab.Screen
+        name="HomeStack"
+        component={HomeStackRoutes}
+        options={{
+          tabBarIcon: ({focused}) => {
+            return <TabIcon active={focused} icon="home" />;
+          },
+          tabBarLabel: 'Home',
+        }}
+      /> */}
       <Tab.Screen
         name="Status"
         component={HomeScreen}
         options={{
-            tabBarIcon: ({focused}) => {
-                return <TabIcon active={focused} icon='graph'/>
-              },
+          tabBarIcon: ({focused}) => {
+            return <TabIcon active={focused} icon="graph" />;
+          },
           tabBarLabel: 'Status',
         }}
       />
@@ -48,7 +58,7 @@ export const AppTabRoutes = () => {
         component={HomeScreen}
         options={{
           tabBarIcon: ({focused}) => {
-            return <TabIcon active={focused} icon='file-directory'/>
+            return <TabIcon active={focused} icon="file-directory" />;
           },
         }}
       />
@@ -57,7 +67,7 @@ export const AppTabRoutes = () => {
         component={HomeScreen}
         options={{
           tabBarIcon: ({focused}) => {
-            return <TabIcon active={focused} icon='person'/>
+            return <TabIcon active={focused} icon="person" />;
           },
         }}
       />

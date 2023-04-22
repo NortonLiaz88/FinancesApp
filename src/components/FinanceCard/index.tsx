@@ -23,13 +23,13 @@ export const FinanceCard: React.FC<IFinanceCard> = ({
       <>
         <ArrowDownIcon />
         <Title>Income</Title>
-       {amount && <AmountText>{amount ?? ''}</AmountText>} 
+       {amount && <AmountText>${amount ?? ''}</AmountText>} 
       </>
     ) : (
       <>
         <ArrowUpIcon />
         <Title>Expense</Title>
-        {amount && <AmountText>{amount ?? ''}</AmountText>} 
+        {amount && <AmountText>${amount ?? ''}</AmountText>} 
 
       </>
     )}

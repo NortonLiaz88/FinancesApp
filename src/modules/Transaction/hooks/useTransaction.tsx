@@ -9,12 +9,12 @@ import {object, string, number, date, ObjectSchema} from 'yup';
 import uuid from 'react-native-uuid';
 
 import {AmountType} from '../../../models/Transaction';
-import {useNavigation} from '@react-navigation/native';
 import {ExpenseCategory} from '../../../models/Expense';
 import {database} from '../../../database';
 import {Transaction} from '../../../database/model/Transaction';
 import {useToast} from 'react-native-toast-notifications';
 import {IncomeCategory} from '../../../models/Income';
+import * as RootNavigation from '../../../utils/rootNavigation';
 
 interface TransactionContextData {
   step: number;
@@ -23,22 +23,23 @@ interface TransactionContextData {
   transactionAmount: number;
   stepProgress: number;
   transactionExpenseCategory: ExpenseCategory | IncomeCategory | undefined;
-
-  setTransactionName: (value: string) => void;
-  setTransactionType: (value: AmountType) => void;
-  setTransactionDate: (value: Date) => void;
-  setTransactionAmount: (value: number) => void;
-
+  creatingTransaction: boolean;
   transactionDate: Date;
   categoryStepSchema: ObjectSchema<any>;
   descriptionStepSchema: ObjectSchema<any>;
 
   handleSelectTransactionType: (transactionType: AmountType) => void;
-  setTransactionCategory: (category: ExpenseCategory | IncomeCategory) => void;
   updateStep: () => void;
   previousStep: () => void;
   editTransaction: () => void;
   finishTransaction: () => Promise<void>;
+  beginTransaction: () => void;
+  
+  setTransactionCategory: (category: ExpenseCategory | IncomeCategory) => void;
+  setTransactionName: (value: string) => void;
+  setTransactionType: (value: AmountType) => void;
+  setTransactionDate: (value: Date) => void;
+  setTransactionAmount: (value: number) => void;
 }
 
 interface TransactionProviderProps {
@@ -53,7 +54,6 @@ function TransactionProvider({children}: TransactionProviderProps) {
   const toast = useToast();
 
   const [step, setStep] = useState(1);
-  const {navigate} = useNavigation();
   const [transactionType, setTransactionType] = useState<AmountType>(
     AmountType.EXPENSE,
   );
@@ -63,6 +63,7 @@ function TransactionProvider({children}: TransactionProviderProps) {
   const [transactionName, setTransactionName] = useState('');
   const [transactionDate, setTransactionDate] = useState<Date>(new Date());
   const [transactionAmount, setTransactionAmount] = useState(0);
+  const [creatingTransaction, setCreatingTransaction] = useState(false);
 
   const steps = 4;
 
@@ -75,7 +76,7 @@ function TransactionProvider({children}: TransactionProviderProps) {
   const handleSelectTransactionType = useCallback(
     (transactionType: AmountType) => {
       setTransactionType(transactionType);
-      navigate('CategoryStep');
+      RootNavigation.push('CategoryStep');
       updateStep();
     },
     [],
@@ -91,7 +92,7 @@ function TransactionProvider({children}: TransactionProviderProps) {
 
   const editTransaction = () => {
     setStep(2);
-    navigate('CategoryStep');
+    RootNavigation.push('CategoryStep');
   };
 
   const categoryStepSchema = object({
@@ -111,6 +112,11 @@ function TransactionProvider({children}: TransactionProviderProps) {
     setTransactionExpenseCategory(null);
     setTransactionName('');
     setTransactionType(null);
+  }, []);
+
+  const beginTransaction = useCallback(() => {
+    setCreatingTransaction(true);
+    RootNavigation.push('Transaction');
   }, []);
 
   const finishTransaction = useCallback(async () => {
@@ -138,8 +144,11 @@ function TransactionProvider({children}: TransactionProviderProps) {
           console.log(transaction._raw);
         });
       });
-      // console.log('Transaction', newTransaction);
-      navigate('Home');
+      setCreatingTransaction(false);
+      RootNavigation.reset({
+        index: 0,
+        routes: [{key: 'Home', name: 'Home', params: undefined}],
+      });
       flushTransactionVariables();
     } catch (error: any) {
       console.log('ERROR ==>', error);
@@ -168,6 +177,8 @@ function TransactionProvider({children}: TransactionProviderProps) {
         setTransactionDate,
         setTransactionCategory: setTransactionExpenseCategory,
         editTransaction,
+        beginTransaction,
+        creatingTransaction,
         categoryStepSchema,
         descriptionStepSchema,
         step,
