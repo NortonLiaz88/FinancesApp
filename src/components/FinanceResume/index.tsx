@@ -1,7 +1,7 @@
 import React from 'react';
 import {FinanceResumeWrapper} from './styles';
 import {FinanceCard} from '../FinanceCard';
-import {AmountType} from '../../models/Transaction';
+import {AmountType} from '../../data/models/Transaction';
 
 interface IFinanceResume {
   incomeAmount?: string;

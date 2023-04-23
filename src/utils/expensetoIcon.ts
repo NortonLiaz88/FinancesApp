@@ -1,4 +1,4 @@
-import {ExpenseCategory} from '../models/Expense';
+import {ExpenseCategory} from '../data/models/Expense';
 
 export const expenseCategoryToIcon = (expenseCategory: ExpenseCategory) => {
   switch (expenseCategory) {

@@ -2,14 +2,19 @@ import React from 'react';
 import {BackButton, ButtonWrapper, HeaderWrapper, Title} from './styles';
 import {useNavigation} from '@react-navigation/native';
 import { useTransaction } from '../../hooks/useTransaction';
+import * as RootNavigation from '../../../../utils/rootNavigation';
 
-export const TransactionHeader: React.FC = () => {
+interface Props {
+  backAction?: () => void;
+}
+
+export const TransactionHeader: React.FC<Props> = ({backAction}) => {
   const {goBack} = useNavigation();
   const {previousStep} = useTransaction();
 
   const handleBack = () => {
     previousStep();
-    goBack();
+    backAction ? backAction() : goBack();
   };
 
   return (

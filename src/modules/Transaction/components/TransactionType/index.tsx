@@ -1,5 +1,5 @@
 import React from 'react';
-import {AmountType} from '../../../../models/Transaction';
+import {AmountType} from '../../../../data/models/Transaction';
 import {
   ArrowDownIcon,
   ArrowUpIcon,

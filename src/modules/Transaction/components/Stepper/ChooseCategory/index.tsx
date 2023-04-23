@@ -17,9 +17,9 @@ import {
   VerticalDivider,
 } from './styles';
 import {TransactionTypeComponent} from '../../TransactionType';
-import {AmountType} from '../../../../../models/Transaction';
+import {AmountType} from '../../../../../data/models/Transaction';
 import {expenseCategoryToIcon} from '../../../../../utils/expensetoIcon';
-import {ExpenseCategory} from '../../../../../models/Expense';
+import {ExpenseCategory} from '../../../../../data/models/Expense';
 import {Input} from '../../Input';
 import {CategoryComponent} from '../../ExpenseCategory';
 import {strings} from '../../../../../values/strings';
@@ -27,7 +27,7 @@ import PrimaryButton from '../../../../../components/PrimaryButton';
 import {useNavigation} from '@react-navigation/native';
 import {useToast} from 'react-native-toast-notifications';
 import {toTitleCase} from '../../../../../utils/titleCase';
-import {IncomeCategory} from '../../../../../models/Income';
+import {IncomeCategory} from '../../../../../data/models/Income';
 import {incomeCategoryToIcon} from '../../../../../utils/incomeTooIcon';
 
 export const CategoryStep = () => {

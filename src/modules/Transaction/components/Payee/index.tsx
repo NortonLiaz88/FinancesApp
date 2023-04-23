@@ -1,5 +1,5 @@
 import React from 'react';
-import {ExpenseCategory} from '../../../../models/Expense';
+import {ExpenseCategory} from '../../../../data/models/Expense';
 import {
   Description,
   MessageWrapper,

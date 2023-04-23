@@ -1,8 +1,8 @@
 import { Model } from '@nozbe/watermelondb'
 import { field,  } from '@nozbe/watermelondb/decorators'
-import { ExpenseCategory } from '../../models/Expense';
-import { IncomeCategory } from '../../models/Income';
-import { AmountType } from '../../models/Transaction';
+import { ExpenseCategory } from '../../data/models/Expense';
+import { IncomeCategory } from '../../data/models/Income';
+import { AmountType } from '../../data/models/Transaction';
 
 class Transaction extends Model {
   static table = 'transactions';
@@ -11,7 +11,7 @@ class Transaction extends Model {
   transaction_id!: string;
 
   @field("date")
-  date!: string;
+  date!: number;
 
   @field("value")
   value!: string;

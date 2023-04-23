@@ -1,3 +1,3 @@
-import { ExpenseCategory } from "../models/Expense";
+import { ExpenseCategory } from "../data/models/Expense";
 
 export const exportCategories = Object.values(ExpenseCategory);

@@ -9,7 +9,7 @@ import TransactionLogo from '../../../../assets/online_transactions.svg';
 import {InitialStepWrapper, Message} from './styles';
 import {strings} from '../../../../values/strings';
 import {FinanceResume} from '../../../../components/FinanceResume';
-import {AmountType} from '../../../../models/Transaction';
+import {AmountType} from '../../../../data/models/Transaction';
 
 interface ITransactionFirstStep {
   onSelectTransactionType: (transactionType: AmountType) => void;

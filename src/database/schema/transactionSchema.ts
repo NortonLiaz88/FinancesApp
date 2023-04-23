@@ -4,7 +4,7 @@ const transactionSchema = tableSchema({
     name: 'transactions',
     columns: [
         {name: 'transaction_id', type: 'string'},
-        {name: 'date', type: 'string'},
+        {name: 'date', type: 'number'},
         {name: 'value', type: 'string'},
         {name: 'type', type: 'string'},
         {name: 'name', type: 'string'},

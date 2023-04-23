@@ -1,4 +1,6 @@
 import { Currency } from "./Currency";
+import { ExpenseCategory } from "./Expense";
+import { IncomeCategory } from "./Income";
 
 export interface TransactionDTO {
     id?: string;
@@ -7,6 +9,7 @@ export interface TransactionDTO {
     type: AmountType;
     name: string;
     currency: Currency;
+    category: ExpenseCategory | IncomeCategory
 }
 
 export enum AmountType {

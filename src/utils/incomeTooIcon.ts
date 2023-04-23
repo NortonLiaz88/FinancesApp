@@ -1,4 +1,4 @@
-import { IncomeCategory } from '../models/Income';
+import { IncomeCategory } from '../data/models/Income';
 
 export const incomeCategoryToIcon = (incomeCategory: IncomeCategory) => {
   switch (incomeCategory) {

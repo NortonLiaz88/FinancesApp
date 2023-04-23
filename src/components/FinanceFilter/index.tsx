@@ -1,4 +1,4 @@
-import React, {useEffect, useId, useMemo, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   FilterWrapper,
   PeriodPicker,
@@ -14,20 +14,20 @@ import theme from '../../styles/theme';
 import {months} from '../../values/strings/months';
 import {years} from '../../values/strings/years';
 import {week} from '../../values/strings/week';
-import {DatePeriod} from '../../models/DatePeriod';
+import {DatePeriod} from '../../data/models/DatePeriod';
 
-type DateItemType = {
+export type DateItemType = {
   id: string;
   date: string;
   selected: boolean;
 };
 
-type FinanceFilterTypes = {
+export type FinanceFilterTypes = {
   title: string;
 }
 
 export const FinanceFilter: React.FC<FinanceFilterTypes> = ({title}: FinanceFilterTypes) => {
-  const [selectedLanguage, setSelectedLanguage] = useState('month');
+  const [selectedPeriod, setSelectedLanguage] = useState('month');
   const [periods, setPeriods] = useState(months);
   const [dateItemList, setDateItemList] = useState<DateItemType[]>([]);
   const pickerRef = useRef();
@@ -81,7 +81,7 @@ export const FinanceFilter: React.FC<FinanceFilterTypes> = ({title}: FinanceFilt
         selected: false,
       };
     });
-    console.log(currentDateList);
+    // console.log(currentDateList);
     setDateItemList(currentDateList);
   }, [periods]);
 
@@ -92,7 +92,7 @@ export const FinanceFilter: React.FC<FinanceFilterTypes> = ({title}: FinanceFilt
         <PickerWrapper>
           <PeriodPicker
             ref={pickerRef}
-            selectedValue={selectedLanguage}
+            selectedValue={selectedPeriod}
             onValueChange={(itemValue, itemIndex) =>
               handlePeriod(itemValue as DatePeriod)
             }

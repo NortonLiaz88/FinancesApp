@@ -17,19 +17,16 @@ export const HomeScreen: React.FC = () => {
   const {
     incomeTotal,
     expenseTotal,
-    loadExpensesFromStorage,
-    loadIncomesFromStorage,
+    loadAllExpensesFromStorage: loadExpensesFromStorage,
+    loadAllIncomesFromStorage: loadIncomesFromStorage,
+    handleFinancesByDate,
   } = useFinance();
 
   const {beginTransaction, finishTransaction} = useTransaction();
 
   useEffect(() => {
-    const financesPromise = Promise.all([
-      loadExpensesFromStorage(),
-      loadIncomesFromStorage(),
-    ]);
     const initFinance = async () => {
-      await financesPromise;
+      await handleFinancesByDate();
     };
     initFinance();
   }, [finishTransaction]);

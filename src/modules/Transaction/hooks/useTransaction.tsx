@@ -8,13 +8,13 @@ import React, {
 import {object, string, number, date, ObjectSchema} from 'yup';
 import uuid from 'react-native-uuid';
 
-import {AmountType} from '../../../models/Transaction';
-import {ExpenseCategory} from '../../../models/Expense';
-import {database} from '../../../database';
-import {Transaction} from '../../../database/model/Transaction';
+import {AmountType} from '../../../data/models/Transaction';
+import {ExpenseCategory} from '../../../data/models/Expense';
 import {useToast} from 'react-native-toast-notifications';
-import {IncomeCategory} from '../../../models/Income';
+import {IncomeCategory} from '../../../data/models/Income';
 import * as RootNavigation from '../../../utils/rootNavigation';
+import { TransactionWatermelonRepository } from '../../../database/transaction/transactions-watermelon';
+import { Currency } from '../../../data/models/Currency';
 
 interface TransactionContextData {
   step: number;
@@ -34,6 +34,7 @@ interface TransactionContextData {
   editTransaction: () => void;
   finishTransaction: () => Promise<void>;
   beginTransaction: () => void;
+  cancelTransaction: () => void;
   
   setTransactionCategory: (category: ExpenseCategory | IncomeCategory) => void;
   setTransactionName: (value: string) => void;
@@ -46,6 +47,8 @@ interface TransactionProviderProps {
   children: React.ReactNode;
 }
 
+const transactionRepository = new TransactionWatermelonRepository();
+
 const TransactionContext = createContext<TransactionContextData>(
   {} as TransactionContextData,
 );
@@ -57,7 +60,7 @@ function TransactionProvider({children}: TransactionProviderProps) {
   const [transactionType, setTransactionType] = useState<AmountType>(
     AmountType.EXPENSE,
   );
-  const [transactionExpenseCategory, setTransactionExpenseCategory] = useState<
+  const [transactionCategory, setTransactionExpenseCategory] = useState<
     ExpenseCategory | IncomeCategory
   >();
   const [transactionName, setTransactionName] = useState('');
@@ -119,6 +122,15 @@ function TransactionProvider({children}: TransactionProviderProps) {
     RootNavigation.push('Transaction');
   }, []);
 
+  const cancelTransaction = useCallback(() => {
+    setCreatingTransaction(false);
+    RootNavigation.reset({
+      index: 0,
+      routes: [{key: 'Home', name: 'Home', params: undefined}],
+    });
+    flushTransactionVariables();
+  }, [creatingTransaction]);
+
   const finishTransaction = useCallback(async () => {
     try {
       const id = uuid.v4();
@@ -127,23 +139,22 @@ function TransactionProvider({children}: TransactionProviderProps) {
         transactionDate.toString(),
         transactionAmount,
         transactionType,
-        transactionExpenseCategory!,
+        transactionCategory!,
         transactionName,
         'currency',
       );
-      const transactionCollection = database.get<Transaction>('transactions');
-      await database.write(async () => {
-        await transactionCollection.create(transaction => {
-          (transaction.transaction_id = id as string),
-            (transaction.date = transactionDate.toString()),
-            (transaction.value = transactionAmount.toString()),
-            (transaction.type = transactionType),
-            (transaction.category = transactionExpenseCategory!),
-            (transaction.name = transactionName),
-            (transaction.currency = 'currency');
-          console.log(transaction._raw);
-        });
-      });
+
+      await transactionRepository.add({
+        id: id as string,
+        category: transactionCategory!,
+        currency: Currency.BRL,
+        date: transactionDate,
+        name: transactionName,
+        type: transactionType,
+        value: transactionAmount
+        
+      })
+
       setCreatingTransaction(false);
       RootNavigation.reset({
         index: 0,
@@ -160,7 +171,7 @@ function TransactionProvider({children}: TransactionProviderProps) {
     transactionDate,
     transactionAmount,
     transactionType,
-    transactionExpenseCategory,
+    transactionCategory,
     transactionName,
   ]);
 
@@ -178,13 +189,14 @@ function TransactionProvider({children}: TransactionProviderProps) {
         setTransactionCategory: setTransactionExpenseCategory,
         editTransaction,
         beginTransaction,
+        cancelTransaction,
         creatingTransaction,
         categoryStepSchema,
         descriptionStepSchema,
         step,
         stepProgress,
         transactionType,
-        transactionExpenseCategory,
+        transactionExpenseCategory: transactionCategory,
         transactionName,
         transactionAmount,
         transactionDate,
