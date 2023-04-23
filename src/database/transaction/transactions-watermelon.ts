@@ -6,6 +6,7 @@ import {
   startOfMonth,
   startOfYear,
   sub,
+  subDays,
 } from 'date-fns';
 
 import {Transaction} from '../model/Transaction';
@@ -68,15 +69,17 @@ export class TransactionWatermelonRepository
 
   async loadByWeek(type: AmountType): Promise<Transaction[]> {
     const currentDate = new Date().getTime();
-    const finalDate = sub(currentDate, {days: 7}).getTime();
+    console.log('CURRENT DATE', currentDate);
+    const finalDate = subDays(currentDate, 7).getTime();
     const transactionCollection = database.get<Transaction>('transactions');
     const transactions = await transactionCollection
       .query(
-        Q.where('date', Q.gte(currentDate)),
-        Q.where('date', Q.lte(finalDate)),
+        Q.where('date', Q.gte(finalDate)),
+        Q.where('date', Q.lte(currentDate)),
         Q.where('type', Q.eq(type))
       )
       .fetch();
+    console.log('Transactions',transactions);
     return transactions;
   }
 

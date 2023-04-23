@@ -13,8 +13,8 @@ import {TransactionWatermelonRepository} from '../../../database/transaction/tra
 import {DatePeriod} from '../../../data/models/DatePeriod';
 import {PeriodDate, months, monthsData, monthsDate} from '../../../values/strings/months';
 import {DateItemType} from '../../../components/FinanceFilter';
-import {years} from '../../../values/strings/years';
-import {week} from '../../../values/strings/week';
+import {years, yearsData} from '../../../values/strings/years';
+import {week, weekData, weekDate} from '../../../values/strings/week';
 import {Transaction} from '../../../database/model/Transaction';
 
 interface FinancesContextData {
@@ -74,11 +74,12 @@ function FinancesProvider({children}: FinancesProviderProps) {
         type: 'danger',
       });
     }
-  }, []);
+  }, [selectedDate]);
 
   const loadFinancesByYearFromStorage = useCallback(
     async (type: AmountType) => {
       try {
+        console.log('LOADING BY YEAR');
         const transactions = await transactionRepository.loadByYear(
           selectedDate!,
           type,
@@ -93,7 +94,7 @@ function FinancesProvider({children}: FinancesProviderProps) {
         });
       }
     },
-    [],
+    [selectedDate],
   );
 
   const loadFinancesByMonth = useCallback(async (type: AmountType) => {
@@ -126,10 +127,11 @@ function FinancesProvider({children}: FinancesProviderProps) {
         type: 'danger',
       });
     }
-  }, []);
+  }, [selectedDate]);
 
   const loadFinanceByDay = useCallback(async (type: AmountType) => {
     try {
+      console.log('LOAD BY Day', selectedDate);
       const transactions = await transactionRepository.loadByDay(
         selectedDate!,
         type,
@@ -143,26 +145,24 @@ function FinancesProvider({children}: FinancesProviderProps) {
         type: 'danger',
       });
     }
-  }, []);
+  }, [selectedDate]);
 
   const handleFinancesPeriod = useCallback(async (value: DatePeriod) => {
     setSelectedLanguage(value);
     console.log('VALUE', value);
     switch (value) {
       case DatePeriod.YEAR:
-        const dateYear = years(new Date().getFullYear()).map(year =>
-          year.toString(),
-        );
-        setPeriods(dateYear);
+        setPeriods(yearsData);
         break;
       case DatePeriod.MONTH:
-        setPeriods(months);
+        setPeriods(monthsData);
         break;
       case DatePeriod.WEEK:
-        setPeriods(week);
+        setPeriods(weekData);
         break;
       case DatePeriod.DAY:
         setPeriods([]);
+        setSelectedDate(new Date());
         break;
       default:
         break;
@@ -184,8 +184,7 @@ function FinancesProvider({children}: FinancesProviderProps) {
     setDateItemList(updatedDateList);
   }, [dateItemList, periods, selectedDate]);
 
-  const handleFinancesByDate = useCallback(async () => {
-    
+  const handleFinancesByDate = useCallback(async () => {  
     switch (selectedPeriod) {
       case DatePeriod.YEAR:
         await Promise.all([
@@ -194,7 +193,6 @@ function FinancesProvider({children}: FinancesProviderProps) {
         ]);
         break;
       case DatePeriod.MONTH:
-        console.log('HANDLE FINANCES');
         await Promise.all([
           loadFinancesByMonth(AmountType.EXPENSE),
           loadFinancesByMonth(AmountType.INCOME),
@@ -202,11 +200,12 @@ function FinancesProvider({children}: FinancesProviderProps) {
         break;
       case DatePeriod.WEEK:
         await Promise.all([
-          loadFinanceByWeek(AmountType.EXPENSE),
-          loadFinanceByWeek(AmountType.INCOME),
+          loadFinanceByDay(AmountType.EXPENSE),
+          loadFinanceByDay(AmountType.INCOME),
         ]);
         break;
       case DatePeriod.DAY:
+        console.log('HANDLE FINANCES');
         await Promise.all([
           loadFinanceByDay(AmountType.EXPENSE),
           loadFinanceByDay(AmountType.INCOME),
@@ -240,7 +239,7 @@ function FinancesProvider({children}: FinancesProviderProps) {
   }, [expenses]);
 
   useEffect(() => {
-    const currentDateList: DateItemType[] = periods.format.map((period,index) => {
+    const currentDateList: DateItemType[] = periods?.format?.map((period,index) => {
       const date = periods.date[index];
       return {
         id: period,
