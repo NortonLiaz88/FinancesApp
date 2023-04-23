@@ -1,6 +1,4 @@
 import React from 'react';
-import {HomeScreen} from '../screens/Home';
-import {TransactionScreen} from '../screens/Transaction';
 import {createStackNavigator} from '@react-navigation/stack';
 import {TransactionStackRoutes} from './app.transaction.stack.routes';
 

@@ -190,6 +190,7 @@ function TransactionProvider({children}: TransactionProviderProps) {
         editTransaction,
         beginTransaction,
         cancelTransaction,
+        
         creatingTransaction,
         categoryStepSchema,
         descriptionStepSchema,

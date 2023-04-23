@@ -33,16 +33,6 @@ export const AppTabRoutes = () => {
           tabBarLabel: 'Home',
         }}
       />
-      {/* <Tab.Screen
-        name="HomeStack"
-        component={HomeStackRoutes}
-        options={{
-          tabBarIcon: ({focused}) => {
-            return <TabIcon active={focused} icon="home" />;
-          },
-          tabBarLabel: 'Home',
-        }}
-      /> */}
       <Tab.Screen
         name="Status"
         component={HomeScreen}

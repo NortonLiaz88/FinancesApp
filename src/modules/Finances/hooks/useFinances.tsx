@@ -11,10 +11,10 @@ import {useToast} from 'react-native-toast-notifications';
 import {AmountType, TransactionDTO} from '../../../data/models/Transaction';
 import {TransactionWatermelonRepository} from '../../../database/transaction/transactions-watermelon';
 import {DatePeriod} from '../../../data/models/DatePeriod';
-import {PeriodDate, months, monthsData, monthsDate} from '../../../values/strings/months';
+import {PeriodDate, months, monthsData} from '../../../values/strings/months';
 import {DateItemType} from '../../../components/FinanceFilter';
-import {years, yearsData} from '../../../values/strings/years';
-import {week, weekData, weekDate} from '../../../values/strings/week';
+import {yearsData} from '../../../values/strings/years';
+import {weekData} from '../../../values/strings/week';
 import {Transaction} from '../../../database/model/Transaction';
 
 interface FinancesContextData {
@@ -192,12 +192,6 @@ function FinancesProvider({children}: FinancesProviderProps) {
           loadFinancesByYearFromStorage(AmountType.INCOME),
         ]);
         break;
-      case DatePeriod.MONTH:
-        await Promise.all([
-          loadFinancesByMonth(AmountType.EXPENSE),
-          loadFinancesByMonth(AmountType.INCOME),
-        ]);
-        break;
       case DatePeriod.WEEK:
         await Promise.all([
           loadFinanceByDay(AmountType.EXPENSE),
@@ -211,6 +205,7 @@ function FinancesProvider({children}: FinancesProviderProps) {
           loadFinanceByDay(AmountType.INCOME),
         ]);
         break;
+      case DatePeriod.MONTH:
       default:
         await Promise.all([
           loadFinancesByMonth(AmountType.EXPENSE),

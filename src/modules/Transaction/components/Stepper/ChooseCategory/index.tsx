@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {ValidationError} from 'yup';
 
 import {TransactionHeader} from '../../Header';

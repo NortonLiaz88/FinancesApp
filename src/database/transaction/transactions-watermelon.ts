@@ -5,7 +5,6 @@ import {
   startOfDay,
   startOfMonth,
   startOfYear,
-  sub,
   subDays,
 } from 'date-fns';
 
@@ -14,10 +13,11 @@ import {LoadTransactionByMonthRepository} from '../../data/protocols/transaction
 import {LoadTransactionByYearRepository} from '../../data/protocols/transaction/load-transaction-by-year';
 import {LoadTransactionByWeekRepository} from '../../data/protocols/transaction/load-transaction-by-week';
 import {LoadTransactionByDayRepository} from '../../data/protocols/transaction/load-transaction-by-day';
-import {database} from '..';
 import {AddTransactionRepository} from '../../data/protocols/transaction/add-transaction';
 import { AmountType, TransactionDTO } from '../../data/models/Transaction';
 import { LoadTransactionsRepository } from '../../data/protocols/transaction/load-transactions';
+
+import {database} from '..';
 
 export class TransactionWatermelonRepository
   implements
@@ -79,7 +79,6 @@ export class TransactionWatermelonRepository
         Q.where('type', Q.eq(type))
       )
       .fetch();
-    console.log('Transactions',transactions);
     return transactions;
   }
 

@@ -55,7 +55,7 @@ export const HomeScreen: React.FC = () => {
           incomeAmount={`${incomeTotal}`}
           expenseAmountTabLabel={`${expenseTotal}`}
         />
-        {/* <FinanceFilter
+        <FinanceFilter
           title={strings.financeBudgetFilterTitle}
           handlePeriod={handleFinancesPeriod}
           handleSelectDate={handleSelectDate}
@@ -64,7 +64,7 @@ export const HomeScreen: React.FC = () => {
           selectedDate={selectedDate}
           selectedPeriod={selectedPeriod}
         />
-        <BudgetList /> */}
+        <BudgetList />
       </PageWrapper>
       <FloatingAction
         actions={homeActions}

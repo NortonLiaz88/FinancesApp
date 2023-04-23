@@ -4,17 +4,20 @@ import { ExpenseCategory } from '../../data/models/Expense';
 import { IncomeCategory } from '../../data/models/Income';
 import { AmountType } from '../../data/models/Transaction';
 
-class Transaction extends Model {
+class Budget extends Model {
   static table = 'transactions';
  
   @field("transaction_id")
-  budget_id!: string;
+  transaction_id!: string;
 
   @field("date")
   date!: number;
 
   @field("value")
   value!: string;
+
+  @field("type")
+  type!: string;
 
   @field("category")
   category!: string;
@@ -26,4 +29,4 @@ class Transaction extends Model {
   currency!: string;
 }
 
-export {Transaction}
+export {Budget}

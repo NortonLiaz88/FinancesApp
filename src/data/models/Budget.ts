@@ -1,3 +1,5 @@
 import { TransactionDTO } from "./Transaction";
 
-export interface Budget extends TransactionDTO {}
+export interface BudgetDTO extends TransactionDTO {
+
+}

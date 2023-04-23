@@ -2,7 +2,6 @@ import React from 'react';
 import {BackButton, ButtonWrapper, HeaderWrapper, Title} from './styles';
 import {useNavigation} from '@react-navigation/native';
 import { useTransaction } from '../../hooks/useTransaction';
-import * as RootNavigation from '../../../../utils/rootNavigation';
 
 interface Props {
   backAction?: () => void;

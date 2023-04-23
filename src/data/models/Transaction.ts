@@ -6,7 +6,7 @@ export interface TransactionDTO {
     id?: string;
     date: Date;
     value: number;
-    type: AmountType;
+    type?: AmountType;
     name: string;
     currency: Currency;
     category: ExpenseCategory | IncomeCategory

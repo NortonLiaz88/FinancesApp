@@ -2,6 +2,7 @@ import { Database } from '@nozbe/watermelondb'
 import SQLiteAdapter from '@nozbe/watermelondb/adapters/sqlite'
 import { schemas } from './schema'
 import { Transaction } from './model/Transaction'
+import { Budget } from './model/Budget'
 
 // import schema from './model/schema'
 // import migrations from './model/migrations'
@@ -27,7 +28,8 @@ const adapter = new SQLiteAdapter({
 export const database = new Database({
   adapter,
   modelClasses: [
-    Transaction
+    Transaction,
+    Budget
     // Post, // ⬅️ You'll add Models to Watermelon here
   ],
 })
