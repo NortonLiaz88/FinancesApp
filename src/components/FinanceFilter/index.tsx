@@ -18,72 +18,89 @@ import {DatePeriod} from '../../data/models/DatePeriod';
 
 export type DateItemType = {
   id: string;
-  date: string;
+  format: string;
+  date: Date;
   selected: boolean;
 };
 
-export type FinanceFilterTypes = {
+export interface FinanceFilterTypes {
   title: string;
+
+  periods: string[];
+  selectedDate: Date;
+  selectedPeriod: DatePeriod;
+  dateItemList: DateItemType[];
+
+  handlePeriod: (value: DatePeriod) => Promise<void>;
+  handleSelectDate: (value: any) => void;
 }
 
-export const FinanceFilter: React.FC<FinanceFilterTypes> = ({title}: FinanceFilterTypes) => {
-  const [selectedPeriod, setSelectedLanguage] = useState('month');
-  const [periods, setPeriods] = useState(months);
-  const [dateItemList, setDateItemList] = useState<DateItemType[]>([]);
+export const FinanceFilter: React.FC<FinanceFilterTypes> = ({
+  title,
+  handlePeriod,
+  handleSelectDate,
+  periods,
+  selectedDate,
+  selectedPeriod,
+  dateItemList,
+}: FinanceFilterTypes) => {
+  // const [selectedPeriod, setSelectedLanguage] = useState('month');
+  // const [periods, setPeriods] = useState(months);
+  // const [dateItemList, setDateItemList] = useState<DateItemType[]>([]);
   const pickerRef = useRef();
 
-  const handlePeriod = (value: DatePeriod) => {
-    setSelectedLanguage(value);
-    console.log('VALUE', value);
-    switch (value) {
-      case DatePeriod.YEAR:
-        const dateYear = years(new Date().getFullYear()).map(year =>
-          year.toString(),
-        );
-        setPeriods(dateYear);
-        break;
-      case DatePeriod.MONTH:
-        setPeriods(months);
-        break;
-      case DatePeriod.WEEK:
-        setPeriods(week);
-        break;
-      case DatePeriod.DAY:
-        setPeriods([]);
-        break;
-      default:
-        break;
-    }
-  };
+  // const handlePeriod = (value: DatePeriod) => {
+  //   setSelectedLanguage(value);
+  //   console.log('VALUE', value);
+  //   switch (value) {
+  //     case DatePeriod.YEAR:
+  //       const dateYear = years(new Date().getFullYear()).map(year =>
+  //         year.toString(),
+  //       );
+  //       setPeriods(dateYear);
+  //       break;
+  //     case DatePeriod.MONTH:
+  //       setPeriods(months);
+  //       break;
+  //     case DatePeriod.WEEK:
+  //       setPeriods(week);
+  //       break;
+  //     case DatePeriod.DAY:
+  //       setPeriods([]);
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  // };
 
-  const handleSelectDate = (value: any) => {
-    console.log('VALUE', value);
-    const updatedDateList = dateItemList.map(ele => {
-      if(ele.id === value.id) {
-        const updatedDate = Object.assign({}, {...ele}, {selected: true});
-        return updatedDate;
-      }
-      else {
-        const updatedDate = Object.assign({}, { ...ele }, { selected: false });
-        return updatedDate;
+  // const handleSelectDate = (value: any) => {
+  //   console.log('VALUE', value);
+  //   const updatedDateList = dateItemList.map(ele => {
+  //     if(ele.id === value.id) {
+  //       const updatedDate = Object.assign({}, {...ele}, {selected: true});
+  //       return updatedDate;
+  //     }
+  //     else {
+  //       const updatedDate = Object.assign({}, { ...ele }, { selected: false });
+  //       return updatedDate;
 
-      }
-    })
-    setDateItemList(updatedDateList);
-    return;
-  };
+  //     }
+  //   })
+  //   setDateItemList(updatedDateList);
+  //   return;
+  // };
 
-  useEffect(() => {
-    const currentDateList: DateItemType[] = periods.map(period => {
-      return {
-        id: period,
-        date: period,
-        selected: false,
-      };
-    });
-    // console.log(currentDateList);
-    setDateItemList(currentDateList);
-  }, [periods]);
+  // useEffect(() => {
+  //   const currentDateList: DateItemType[] = periods.map(period => {
+  //     return {
+  //       id: period,
+  //       date: period,
+  //       selected: false,
+  //     };
+  //   });
+  //   // console.log(currentDateList);
+  //   setDateItemList(currentDateList);
+  // }, [periods]);
 
   return (
     <Wrapper>
@@ -123,8 +140,12 @@ export const FinanceFilter: React.FC<FinanceFilterTypes> = ({title}: FinanceFilt
         horizontal
         keyExtractor={date => date.id}
         renderItem={date => (
-          <DateButton onPress={() => handleSelectDate(date.item)} selected={date.item.selected}>
-            <DateButtonText selected={date.item.selected}>{date.item.date}</DateButtonText >
+          <DateButton
+            onPress={() => handleSelectDate(date.item)}
+            selected={date.item.selected}>
+            <DateButtonText selected={date.item.selected}>
+              {date.item.format}
+            </DateButtonText>
           </DateButton>
         )}
       />

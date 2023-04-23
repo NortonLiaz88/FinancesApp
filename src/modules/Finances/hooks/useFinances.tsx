@@ -11,7 +11,7 @@ import {useToast} from 'react-native-toast-notifications';
 import {AmountType, TransactionDTO} from '../../../data/models/Transaction';
 import {TransactionWatermelonRepository} from '../../../database/transaction/transactions-watermelon';
 import {DatePeriod} from '../../../data/models/DatePeriod';
-import {months} from '../../../values/strings/months';
+import {PeriodDate, months, monthsData, monthsDate} from '../../../values/strings/months';
 import {DateItemType} from '../../../components/FinanceFilter';
 import {years} from '../../../values/strings/years';
 import {week} from '../../../values/strings/week';
@@ -23,8 +23,12 @@ interface FinancesContextData {
   incomeTotal: number;
   expenseTotal: number;
 
-  loadAllIncomesFromStorage: () => Promise<void>;
-  loadAllExpensesFromStorage: () => Promise<void>;
+  periods: PeriodDate;
+  selectedDate: Date;
+  selectedPeriod: DatePeriod;
+  dateItemList: DateItemType[];
+
+  loudFinancesFromStorage: (type: AmountType) => Promise<void>;
   handleFinancesPeriod: (value: DatePeriod) => Promise<void>;
   handleSelectDate: (value: any) => void;
   handleFinancesByDate: () => Promise<void>;
@@ -48,7 +52,7 @@ function FinancesProvider({children}: FinancesProviderProps) {
 
   const [selectedPeriod, setSelectedLanguage] = useState(DatePeriod.MONTH);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-  const [periods, setPeriods] = useState(months);
+  const [periods, setPeriods] = useState<PeriodDate>(monthsData);
   const [dateItemList, setDateItemList] = useState<DateItemType[]>([]);
 
   const makeTransactions = (transactions: Transaction[]): TransactionDTO[] => {
@@ -58,12 +62,12 @@ function FinancesProvider({children}: FinancesProviderProps) {
     return currentTransactions;
   };
 
-  const loadIncomesFromStorage = useCallback(async () => {
+  const loudFinancesFromStorage = useCallback(async (type: AmountType) => {
     try {
-      const transactions = await transactionRepository.loadAll(
-        AmountType.INCOME,
-      );
-      setIncomes(makeTransactions(transactions));
+      const transactions = await transactionRepository.loadAll(type);
+      type === AmountType.INCOME
+        ? setIncomes(makeTransactions(transactions))
+        : setExpenses(makeTransactions(transactions));
     } catch (error: any) {
       console.log('ERROR ==>', error);
       toast.show('Opa, não foi possível carregar as entradas', {
@@ -72,73 +76,50 @@ function FinancesProvider({children}: FinancesProviderProps) {
     }
   }, []);
 
-  const loadExpensesFromStorage = useCallback(async () => {
-    try {
-      const transactions = await transactionRepository.loadAll(
-        AmountType.EXPENSE,
-      );
-      setIncomes(makeTransactions(transactions));
-    } catch (error: any) {
-      console.log('ERROR ==>', error);
-      toast.show('Opa, não foi possível carregar as saídas', {
-        type: 'danger',
-      });
-    }
-  }, []);
+  const loadFinancesByYearFromStorage = useCallback(
+    async (type: AmountType) => {
+      try {
+        const transactions = await transactionRepository.loadByYear(
+          selectedDate!,
+          type,
+        );
+        type === AmountType.INCOME
+        ? setIncomes(makeTransactions(transactions))
+        : setExpenses(makeTransactions(transactions));
+      } catch (error: any) {
+        console.log('ERROR ==>', error);
+        toast.show('Opa, não foi possível carregar as entradas', {
+          type: 'danger',
+        });
+      }
+    },
+    [],
+  );
 
-  const loadIncomesByYearFromStorage = useCallback(async () => {
+  const loadFinancesByMonth = useCallback(async (type: AmountType) => {
     try {
-      const transactions = await transactionRepository.loadByYear(
-        selectedDate!,
-        AmountType.INCOME,
-      );
-      setIncomes(makeTransactions(transactions));
-    } catch (error: any) {
-      console.log('ERROR ==>', error);
-      toast.show('Opa, não foi possível carregar as entradas', {
-        type: 'danger',
-      });
-    }
-  }, []);
-
-  const loadExpensesByYearFromStorage = useCallback(async () => {
-    try {
-      const transactions = await transactionRepository.loadByYear(
-        selectedDate!,
-        AmountType.EXPENSE,
-      );
-      setExpenses(makeTransactions(transactions));
-    } catch (error: any) {
-      console.log('ERROR ==>', error);
-      toast.show('Opa, não foi possível carregar as entradas', {
-        type: 'danger',
-      });
-    }
-  }, []);
-
-  const loadIncomesByMonth = useCallback(async () => {
-    try {
-      console.log('LOAD BY MONTH', selectedDate!.getMonth());
+      console.log('LOAD BY MONTH', selectedDate?.getMonth());
       const transactions = await transactionRepository.loadByMonth(
         selectedDate!,
-        AmountType.INCOME,
+        type,
       );
-      setIncomes(makeTransactions(transactions));
+      type === AmountType.INCOME
+      ? setIncomes(makeTransactions(transactions))
+      : setExpenses(makeTransactions(transactions));
     } catch (error: any) {
       console.log('ERROR ==>', error);
       toast.show('Opa, não foi possível carregar as entradas', {
         type: 'danger',
       });
     }
-  }, []);
+  }, [selectedDate]);
 
-  const loadExpenseByMonth = useCallback(async () => {
+  const loadFinanceByWeek = useCallback(async (type: AmountType) => {
     try {
-      const transactions = await transactionRepository.loadByMonth(
-        selectedDate!,
-        AmountType.EXPENSE,
-      );
-      setExpenses(makeTransactions(transactions));
+      const transactions = await transactionRepository.loadByWeek(type);
+      type === AmountType.INCOME
+        ? setIncomes(makeTransactions(transactions))
+        : setExpenses(makeTransactions(transactions));
     } catch (error: any) {
       console.log('ERROR ==>', error);
       toast.show('Opa, não foi possível carregar as entradas', {
@@ -147,42 +128,15 @@ function FinancesProvider({children}: FinancesProviderProps) {
     }
   }, []);
 
-  const loadIncomeByWeek = useCallback(async () => {
-    try {
-      const transactions = await transactionRepository.loadByWeek(
-        AmountType.INCOME,
-      );
-      setIncomes(makeTransactions(transactions));
-    } catch (error: any) {
-      console.log('ERROR ==>', error);
-      toast.show('Opa, não foi possível carregar as entradas', {
-        type: 'danger',
-      });
-    }
-  }, []);
-
-  const loadExpenseByWeek = useCallback(async () => {
-    try {
-      const transactions = await transactionRepository.loadByWeek(
-        AmountType.EXPENSE,
-      );
-      setExpenses(makeTransactions(transactions));
-    } catch (error: any) {
-      console.log('ERROR ==>', error);
-      toast.show('Opa, não foi possível carregar as entradas', {
-        type: 'danger',
-      });
-    }
-  }, []);
-
-
-  const loadIncomeByDay = useCallback(async () => {
+  const loadFinanceByDay = useCallback(async (type: AmountType) => {
     try {
       const transactions = await transactionRepository.loadByDay(
         selectedDate!,
-        AmountType.INCOME,
+        type,
       );
-      setIncomes(makeTransactions(transactions));
+      type === AmountType.INCOME
+        ? setIncomes(makeTransactions(transactions))
+        : setExpenses(makeTransactions(transactions));
     } catch (error: any) {
       console.log('ERROR ==>', error);
       toast.show('Opa, não foi possível carregar as entradas', {
@@ -190,23 +144,6 @@ function FinancesProvider({children}: FinancesProviderProps) {
       });
     }
   }, []);
-
-
-  const loadExpensesByDay = useCallback(async () => {
-    try {
-      const transactions = await transactionRepository.loadByDay(
-        selectedDate!,
-        AmountType.EXPENSE,
-      );
-      setIncomes(makeTransactions(transactions));
-    } catch (error: any) {
-      console.log('ERROR ==>', error);
-      toast.show('Opa, não foi possível carregar as entradas', {
-        type: 'danger',
-      });
-    }
-  }, []);
-
 
   const handleFinancesPeriod = useCallback(async (value: DatePeriod) => {
     setSelectedLanguage(value);
@@ -233,7 +170,6 @@ function FinancesProvider({children}: FinancesProviderProps) {
   }, []);
 
   const handleSelectDate = useCallback((value: any) => {
-    console.log('VALUE', value);
     const updatedDateList = dateItemList.map(ele => {
       if (ele.id === value.id) {
         const updatedDate = Object.assign({}, {...ele}, {selected: true});
@@ -243,32 +179,47 @@ function FinancesProvider({children}: FinancesProviderProps) {
         return updatedDate;
       }
     });
-    setSelectedDate(value);
+    setSelectedDate(value.date);
+    console.log('SELECTED', value)
     setDateItemList(updatedDateList);
-  }, []);
+  }, [dateItemList, periods, selectedDate]);
 
   const handleFinancesByDate = useCallback(async () => {
+    
     switch (selectedPeriod) {
       case DatePeriod.YEAR:
         await Promise.all([
-          loadIncomesByYearFromStorage(),
-          loadExpensesByYearFromStorage(),
+          loadFinancesByYearFromStorage(AmountType.EXPENSE),
+          loadFinancesByYearFromStorage(AmountType.INCOME),
         ]);
         break;
       case DatePeriod.MONTH:
-        await Promise.all([loadIncomesByMonth(), loadExpenseByMonth()]);
+        console.log('HANDLE FINANCES');
+        await Promise.all([
+          loadFinancesByMonth(AmountType.EXPENSE),
+          loadFinancesByMonth(AmountType.INCOME),
+        ]);
         break;
       case DatePeriod.WEEK:
-        await Promise.all([loadIncomeByWeek(), loadExpenseByWeek()]);
+        await Promise.all([
+          loadFinanceByWeek(AmountType.EXPENSE),
+          loadFinanceByWeek(AmountType.INCOME),
+        ]);
         break;
       case DatePeriod.DAY:
-        await Promise.all([loadIncomeByDay(), loadExpensesByDay()]);
+        await Promise.all([
+          loadFinanceByDay(AmountType.EXPENSE),
+          loadFinanceByDay(AmountType.INCOME),
+        ]);
         break;
       default:
-        await Promise.all([loadIncomesByMonth(), loadExpenseByMonth()]);
+        await Promise.all([
+          loadFinancesByMonth(AmountType.EXPENSE),
+          loadFinancesByMonth(AmountType.INCOME),
+        ]);
         break;
     }
-  }, [handleSelectDate]);
+  }, [handleSelectDate, selectedDate]);
 
   const incomeTotal = useMemo(() => {
     let total = 0;
@@ -288,18 +239,32 @@ function FinancesProvider({children}: FinancesProviderProps) {
     return +amountTotal;
   }, [expenses]);
 
-  // useEffect(() => {
-  //   const initHook = async () => {
-  //     await handleFinancesByDate();
-  //   };
-  //   initHook();
-  // }, []);
+  useEffect(() => {
+    const currentDateList: DateItemType[] = periods.format.map((period,index) => {
+      const date = periods.date[index];
+      return {
+        id: period,
+        format: period,
+        date: date,
+        selected: false,
+      };
+    });
+    setDateItemList(currentDateList);
+  }, [periods]);
+
+  useEffect(() => {
+    const initFinance = async () => {
+      await handleFinancesByDate();
+    };
+    console.log('MONTHS', months)
+    initFinance();
+  }, [selectedDate]);
+  
 
   return (
     <FinancesContext.Provider
       value={{
-        loadAllIncomesFromStorage: loadIncomesFromStorage,
-        loadAllExpensesFromStorage: loadExpensesFromStorage,
+        loudFinancesFromStorage,
         handleFinancesPeriod,
         handleSelectDate,
         handleFinancesByDate,
@@ -307,6 +272,10 @@ function FinancesProvider({children}: FinancesProviderProps) {
         expenses,
         incomeTotal,
         expenseTotal,
+        periods,
+        selectedDate,
+        selectedPeriod,
+        dateItemList
       }}>
       {children}
     </FinancesContext.Provider>

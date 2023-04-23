@@ -1,25 +1,29 @@
 import React, {useEffect} from 'react';
-import {useNavigation} from '@react-navigation/native';
+import {FloatingAction} from 'react-native-floating-action';
+import {useTransaction} from '../../modules/Transaction/hooks/useTransaction';
+import {useFinance} from '../../modules/Finances/hooks/useFinances';
+
+import {homeActions} from '../../utils/homeActions';
+import {strings} from '../../values/strings';
+import theme from '../../styles/theme';
+
 import {PageWrapper} from '../../components/Screen/styles';
 import {Header} from '../../components/Header';
 import {FinanceFilter} from '../../components/FinanceFilter';
 import {FinanceResume} from '../../components/FinanceResume';
-import {strings} from '../../values/strings';
 import {BudgetList} from '../../components/BudgetList';
-import {FloatingAction} from 'react-native-floating-action';
-import {homeActions} from '../../utils/homeActions';
-import theme from '../../styles/theme';
-import {useFinance} from '../../modules/Finances/hooks/useFinances';
-import { HomeStackRoutes } from '../../routes/app.home.stack.routes';
-import { useTransaction } from '../../modules/Transaction/hooks/useTransaction';
 
 export const HomeScreen: React.FC = () => {
   const {
     incomeTotal,
     expenseTotal,
-    loadAllExpensesFromStorage: loadExpensesFromStorage,
-    loadAllIncomesFromStorage: loadIncomesFromStorage,
+    dateItemList,
+    periods,
+    selectedDate,
+    selectedPeriod,
     handleFinancesByDate,
+    handleFinancesPeriod,
+    handleSelectDate,
   } = useFinance();
 
   const {beginTransaction, finishTransaction} = useTransaction();
@@ -32,19 +36,35 @@ export const HomeScreen: React.FC = () => {
   }, [finishTransaction]);
 
   const handleCreateTransaction = () => {
-    beginTransaction()
+    beginTransaction();
   };
   return (
     <>
       <PageWrapper>
         <Header>Home</Header>
-        <FinanceFilter title={strings.financeFilterTitle} />
+        <FinanceFilter
+          title={strings.financeFilterTitle}
+          handlePeriod={handleFinancesPeriod}
+          handleSelectDate={handleSelectDate}
+          dateItemList={dateItemList}
+          periods={periods}
+          selectedDate={selectedDate}
+          selectedPeriod={selectedPeriod}
+        />
         <FinanceResume
           incomeAmount={`${incomeTotal}`}
           expenseAmountTabLabel={`${expenseTotal}`}
         />
-        <FinanceFilter title={strings.financeBudgetFilterTitle} />
-        <BudgetList />
+        {/* <FinanceFilter
+          title={strings.financeBudgetFilterTitle}
+          handlePeriod={handleFinancesPeriod}
+          handleSelectDate={handleSelectDate}
+          dateItemList={dateItemList}
+          periods={periods}
+          selectedDate={selectedDate}
+          selectedPeriod={selectedPeriod}
+        />
+        <BudgetList /> */}
       </PageWrapper>
       <FloatingAction
         actions={homeActions}

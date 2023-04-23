@@ -81,8 +81,8 @@ export class TransactionWatermelonRepository
   }
 
   async loadByMonth(month: Date, type: AmountType): Promise<Transaction[]> {
-    const beginMonth = startOfMonth(month).getTime();
-    const finalMonth = endOfMonth(month).getTime();
+    const beginMonth = startOfMonth(month).getTime()
+    const finalMonth = endOfMonth(month).getTime()
 
 
     console.log('BEGIN & END', beginMonth, finalMonth);
