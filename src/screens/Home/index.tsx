@@ -12,6 +12,7 @@ import {Header} from '../../components/Header';
 import {FinanceFilter} from '../../components/FinanceFilter';
 import {FinanceResume} from '../../components/FinanceResume';
 import {BudgetList} from '../../components/BudgetList';
+import { useBudget } from '../../modules/Budget/hooks/useBudgets';
 
 export const HomeScreen: React.FC = () => {
   const {
@@ -25,6 +26,16 @@ export const HomeScreen: React.FC = () => {
     handleFinancesPeriod,
     handleSelectDate,
   } = useFinance();
+
+  const {
+    budgets,
+    dateItemList: budgetItemList,
+    periods: budgetPeriods,
+    selectedDate: selectedBudgetDate,
+    selectedPeriod: selectedBudgetPeriod,
+    handleBudgetPeriod,
+    handleSelectDate: handleSelectBudgetDate,
+  } = useBudget();
 
   const {beginTransaction, finishTransaction} = useTransaction();
 
@@ -57,14 +68,14 @@ export const HomeScreen: React.FC = () => {
         />
         <FinanceFilter
           title={strings.financeBudgetFilterTitle}
-          handlePeriod={handleFinancesPeriod}
-          handleSelectDate={handleSelectDate}
-          dateItemList={dateItemList}
-          periods={periods}
-          selectedDate={selectedDate}
-          selectedPeriod={selectedPeriod}
+          handlePeriod={handleBudgetPeriod}
+          handleSelectDate={handleSelectBudgetDate}
+          dateItemList={budgetItemList}
+          periods={budgetPeriods}
+          selectedDate={selectedBudgetDate}
+          selectedPeriod={selectedBudgetPeriod}
         />
-        <BudgetList />
+        <BudgetList budgets={budgets} horizontal/>
       </PageWrapper>
       <FloatingAction
         actions={homeActions}

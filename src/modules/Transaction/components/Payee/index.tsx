@@ -6,7 +6,7 @@ import {
   PayeeWrapper,
   Title,
 } from './styles';
-import { CategoryComponent } from '../ExpenseCategory';
+import { CategoryComponent } from '../../../../components/CategoryIcon';
 
 interface Props {
   icon: string;

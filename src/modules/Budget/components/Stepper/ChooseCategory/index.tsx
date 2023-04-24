@@ -1,9 +1,6 @@
 import React from 'react';
 import {ValidationError} from 'yup';
 
-import {TransactionHeader} from '../../Header';
-import {useTransaction} from '../../../hooks/useTransaction';
-import TransactionProgress from '../../TransactionProgress';
 import {
   ButtonWrapper,
   CategoriesContentWrapper,
@@ -16,10 +13,7 @@ import {
   InputWrapper,
   VerticalDivider,
 } from './styles';
-import {TransactionTypeComponent} from '../../TransactionType';
-import {AmountType} from '../../../../../data/models/Transaction';
-import {expenseCategoryToIcon} from '../../../../../utils/expensetoIcon';
-import {ExpenseCategory} from '../../../../../data/models/Expense';
+
 import {CategoryComponent} from '../../../../../components/CategoryIcon';
 import {strings} from '../../../../../values/strings';
 import PrimaryButton from '../../../../../components/PrimaryButton';
@@ -28,22 +22,24 @@ import {useToast} from 'react-native-toast-notifications';
 import {toTitleCase} from '../../../../../utils/titleCase';
 import {IncomeCategory} from '../../../../../data/models/Income';
 import {incomeCategoryToIcon} from '../../../../../utils/incomeTooIcon';
-import { Input } from '../../../../../components/Input';
+import {useBudget} from '../../../hooks/useBudgets';
+import {FinanceHeader} from '../../../../../components/FinanceHeader';
+import FinanceProgress from '../../../../../components/FinanceProgress';
+import {Input} from '../../../../../components/Input';
 
-export const CategoryStep: React.FC = () => {
+export const BudgetCategoryStep: React.FC = () => {
   const {navigate} = useNavigation();
 
   const {
-    handleSelectTransactionType,
+    previousStep,
     updateStep,
     setTransactionCategory: setTransactionExpenseCategory,
     setTransactionName,
     transactionName,
     transactionExpenseCategory,
-    transactionType,
     stepProgress,
     categoryStepSchema,
-  } = useTransaction();
+  } = useBudget();
 
   const toast = useToast();
 
@@ -55,7 +51,7 @@ export const CategoryStep: React.FC = () => {
       };
       await categoryStepSchema.validate(data);
       updateStep();
-      navigate('DescriptionStep');
+      navigate('DescriptionBudgetStep');
     } catch (error) {
       if (error instanceof ValidationError) {
         toast.show(`Opa, ${error.message}`, {
@@ -73,27 +69,16 @@ export const CategoryStep: React.FC = () => {
 
   return (
     <ExpenseWrapper>
-      <TransactionHeader />
+      <FinanceHeader previousStep={previousStep} />
       <VerticalDivider />
-      <TransactionProgress progress={stepProgress} />
-      <TransactionTypeComponent
-        type={
-          transactionType === 'income' ? AmountType.INCOME : AmountType.EXPENSE
-        }
-      />
+      <FinanceProgress progress={stepProgress} />
       <CurrentCategoryWrapper>
         {transactionExpenseCategory && (
           <CategoryWrapper>
             <CategoryComponent
-              icon={
-                transactionType === 'income'
-                  ? incomeCategoryToIcon(
-                      transactionExpenseCategory as IncomeCategory,
-                    )
-                  : expenseCategoryToIcon(
-                      transactionExpenseCategory as ExpenseCategory,
-                    )
-              }
+              icon={incomeCategoryToIcon(
+                transactionExpenseCategory as IncomeCategory,
+              )}
             />
 
             <CategoryName>
@@ -117,40 +102,24 @@ export const CategoryStep: React.FC = () => {
           {strings.transaction.expenseSteps.addTransactionStep.chooseCategory}
         </CategoriesDescription>
         <CategoriesContentWrapper>
-          {transactionType === 'income' ? (
-            <>
-              {Object.values(IncomeCategory).map(ele => {
-                return (
-                  <CategoryWrapper key={ele}>
-                    <CategoryComponent
-                      icon={incomeCategoryToIcon(ele)}
-                      onPress={() => setTransactionExpenseCategory(ele)}
-                    />
-                    <CategoryName>{toTitleCase(ele) ?? ''}</CategoryName>
-                  </CategoryWrapper>
-                );
-              })}
-            </>
-          ) : (
-            <>
-              {Object.values(ExpenseCategory).map(ele => {
-                return (
-                  <CategoryWrapper key={ele}>
-                    <CategoryComponent
-                      icon={expenseCategoryToIcon(ele)}
-                      onPress={() => setTransactionExpenseCategory(ele)}
-                    />
-                    <CategoryName>{toTitleCase(ele) ?? ''}</CategoryName>
-                  </CategoryWrapper>
-                );
-              })}
-            </>
-          )}
+          <>
+            {Object.values(IncomeCategory).map(ele => {
+              return (
+                <CategoryWrapper key={ele}>
+                  <CategoryComponent
+                    icon={incomeCategoryToIcon(ele)}
+                    onPress={() => setTransactionExpenseCategory(ele)}
+                  />
+                  <CategoryName>{toTitleCase(ele) ?? ''}</CategoryName>
+                </CategoryWrapper>
+              );
+            })}
+          </>
         </CategoriesContentWrapper>
       </CategoriesWrapper>
       <ButtonWrapper>
         <PrimaryButton
-          testID="Expense.Step.Transaction"
+          testID="Budget.Step.Transaction"
           accessibilityLabel="button.continue"
           text={'Continue'}
           onPress={() => handleNextStep()}

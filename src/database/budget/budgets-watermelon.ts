@@ -18,7 +18,6 @@ import {LoadBudgetByDayRepository} from '../../data/protocols/budget/load-budget
 import {Budget} from '../model/Budget';
 import {database} from '..';
 
-
 export class BudgetWatermelonRepository
   implements
     AddBudgetRepository,

@@ -4,12 +4,12 @@ import {
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 
-import TransactionLogo from '../../../../assets/online_transactions.svg';
+import TransactionLogo from '../../../../../assets/finish_transaction.svg';
 
 import {InitialStepWrapper, Message} from './styles';
-import {strings} from '../../../../values/strings';
-import {FinanceResume} from '../../../../components/FinanceResume';
-import {AmountType} from '../../../../data/models/Transaction';
+import {strings} from '../../../../../values/strings';
+import {FinanceResume} from '../../../../../components/FinanceResume';
+import {AmountType} from '../../../../../data/models/Transaction';
 
 interface ITransactionFirstStep {
   onSelectTransactionType: (transactionType: AmountType) => void;

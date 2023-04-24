@@ -8,39 +8,35 @@ import {
   InputWrapper,
   VerticalDivider,
 } from './styles';
-import { useNavigation } from '@react-navigation/native';
-import { useToast } from 'react-native-toast-notifications';
-import { ValidationError } from 'yup';
-import { InputDatePicker } from '../../../../../components/DatePicker';
+import {useNavigation} from '@react-navigation/native';
+import {useToast} from 'react-native-toast-notifications';
+import {ValidationError} from 'yup';
+import {InputDatePicker} from '../../../../../components/DatePicker';
 import PrimaryButton from '../../../../../components/PrimaryButton';
-import { ExpenseCategory } from '../../../../../data/models/Expense';
-import { IncomeCategory } from '../../../../../data/models/Income';
-import { AmountType } from '../../../../../data/models/Transaction';
-import { expenseCategoryToIcon } from '../../../../../utils/expensetoIcon';
-import { incomeCategoryToIcon } from '../../../../../utils/incomeTooIcon';
-import { toTitleCase } from '../../../../../utils/titleCase';
-import { strings } from '../../../../../values/strings';
-import { useTransaction } from '../../../hooks/useTransaction';
-import { CategoryComponent } from '../../../../../components/CategoryIcon';
-import { TransactionHeader } from '../../Header';
-import TransactionProgress from '../../TransactionProgress';
-import { TransactionTypeComponent } from '../../TransactionType';
+import {IncomeCategory} from '../../../../../data/models/Income';
+import {incomeCategoryToIcon} from '../../../../../utils/incomeTooIcon';
+import {toTitleCase} from '../../../../../utils/titleCase';
+import {strings} from '../../../../../values/strings';
+import {CategoryComponent} from '../../../../../components/CategoryIcon';
+import {useBudget} from '../../../hooks/useBudgets';
+import {FinanceHeader} from '../../../../../components/FinanceHeader';
+import FinanceProgress from '../../../../../components/FinanceProgress';
 import { Input } from '../../../../../components/Input';
 
-export const DescriptionStep: React.FC = () => {
+export const BudgetDescriptionStep: React.FC = () => {
   const {navigate} = useNavigation();
 
   const {
     updateStep,
     setTransactionAmount,
     setTransactionDate,
+    previousStep,
     stepProgress,
     transactionExpenseCategory,
     transactionAmount,
     transactionDate,
-    transactionType,
     descriptionStepSchema,
-  } = useTransaction();
+  } = useBudget();
   const [chosenDate, setChosenDate] = useState(new Date());
 
   const handleChangeDate = (date: Date) => {
@@ -59,7 +55,7 @@ export const DescriptionStep: React.FC = () => {
       };
       await descriptionStepSchema.validate(data);
       updateStep();
-      navigate('CongratulationStep');
+      navigate('CongratulationBudgetStep');
     } catch (error) {
       if (error instanceof ValidationError) {
         toast.show(`Opa, ${error.message}`, {
@@ -77,27 +73,16 @@ export const DescriptionStep: React.FC = () => {
 
   return (
     <ExpenseDescriptionWrapper>
-      <TransactionHeader />
+      <FinanceHeader previousStep={previousStep} />
       <VerticalDivider />
-      <TransactionProgress progress={stepProgress} />
-      <TransactionTypeComponent
-        type={
-          transactionType === 'income' ? AmountType.INCOME : AmountType.EXPENSE
-        }
-      />
+      <FinanceProgress progress={stepProgress} />
       <CurrentCategoryWrapper>
         {transactionExpenseCategory && (
           <CategoryWrapper>
             <CategoryComponent
-              icon={
-                transactionType === 'income'
-                  ? incomeCategoryToIcon(
-                      transactionExpenseCategory as IncomeCategory,
-                    )
-                  : expenseCategoryToIcon(
-                      transactionExpenseCategory as ExpenseCategory,
-                    )
-              }
+              icon={incomeCategoryToIcon(
+                transactionExpenseCategory as IncomeCategory,
+              )}
             />
             <CategoryName>
               {toTitleCase(transactionExpenseCategory)}

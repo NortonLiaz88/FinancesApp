@@ -1,12 +1,29 @@
-import React from 'react'
-import { BudgetFlatList } from './styles'
-import { BudgetCard } from '../BudgetCard'
+import React from 'react';
+import {BudgetFlatList} from './styles';
+import {BudgetCard} from '../BudgetCard';
+import {BudgetDTO} from '../../data/models/Budget';
+import {ListRenderItemInfo} from 'react-native';
 
-export const BudgetList: React.FC = () => {
-  return (
-      <BudgetFlatList showsHorizontalScrollIndicator={false} 
-        data={Array.from(Array(10).keys())} 
-        renderItem={(ele) => <BudgetCard key={ele}/>}
-    />
-  )
+interface Props {
+  budgets: BudgetDTO[];
+  horizontal?: boolean;
 }
+
+export const BudgetList: React.FC<Props> = ({budgets, horizontal}) => {
+  return (
+    <BudgetFlatList
+      horizontal={horizontal}
+      showsHorizontalScrollIndicator={false}
+      data={budgets}
+      renderItem={({item}: ListRenderItemInfo<BudgetDTO>) => (
+        <BudgetCard
+          key={item.id}
+          icon={item.category}
+          amount={item.value.toString()}
+          date={item.date.toISOString()}
+          name={item.name}
+        />
+      )}
+    />
+  );
+};

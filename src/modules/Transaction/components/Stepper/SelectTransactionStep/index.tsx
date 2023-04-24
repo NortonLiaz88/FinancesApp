@@ -1,6 +1,6 @@
 import React from 'react';
 import {StepperWrapper} from './styles';
-import { TransactionFirstStep } from '../../FirstStep';
+import { TransactionFirstStep } from '../FirstStep';
 import { useTransaction } from '../../../hooks/useTransaction';
 import TransactionProgress from '../../TransactionProgress';
 

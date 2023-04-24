@@ -20,27 +20,27 @@ import {
   VerticalDivider,
 } from './styles';
 
-import {TransactionHeader} from '../../Header';
-import TransactionProgress from '../../TransactionProgress';
-import {useTransaction} from '../../../hooks/useTransaction';
-
 import FinishTransactionLogo from '../../../../../assets/finish_transaction.svg';
 import {strings} from '../../../../../values/strings';
 import {toTitleCase} from '../../../../../utils/titleCase';
 import {DotedLine} from '../../../../../components/DotedLine';
 import OutlineButton from '../../../../../components/OutlineButton';
 import PrimaryButton from '../../../../../components/PrimaryButton';
+import { useBudget } from '../../../hooks/useBudgets';
+import { FinanceHeader } from '../../../../../components/FinanceHeader';
+import FinanceProgress from '../../../../../components/FinanceProgress';
+import { format } from 'date-fns';
 
-export const CongratulationStep: React.FC = () => {
+export const BudgetCongratulationStep: React.FC = () => {
   const {
     finishTransaction,
+    previousStep,
     editTransaction,
     stepProgress,
-    transactionType,
     transactionName,
     transactionDate,
     transactionAmount,
-  } = useTransaction();
+  } = useBudget();
 
 
   const handleFinishTransaction = async () => {
@@ -57,9 +57,9 @@ export const CongratulationStep: React.FC = () => {
 
   return (
     <CongratulationWrapper>
-      <TransactionHeader />
+      <FinanceHeader  previousStep={previousStep}/>
       <VerticalDivider />
-      <TransactionProgress progress={stepProgress} />
+      <FinanceProgress progress={stepProgress} />
       <ContentWrapper>
         <FinishTransactionLogo width={wp(70)} height={hp(30)} />
         <VerticalDivider />
@@ -73,7 +73,7 @@ export const CongratulationStep: React.FC = () => {
       <TransactionContentWrapper>
         <TransactionTagWrapper>
           <TransactionType>
-            {transactionType === 'income' ? 'Income name' : 'Payee name'}
+            {'Budget name'}
           </TransactionType>
           <TransactionName>{toTitleCase(transactionName)}</TransactionName>
         </TransactionTagWrapper>
@@ -81,7 +81,7 @@ export const CongratulationStep: React.FC = () => {
         <TransactionDetailWrapper>
           <TransactionTagWrapper>
             <TransactionType>Transaction type</TransactionType>
-            <TransactionName>{toTitleCase(transactionType??  '')}</TransactionName>
+            <TransactionName>{format(transactionDate, 'HH:mm')}</TransactionName>
           </TransactionTagWrapper>
           <DetailSeparator />
           <TransactionTagWrapper>
@@ -94,13 +94,13 @@ export const CongratulationStep: React.FC = () => {
         <VerticalDivider />
         <TransactionDetailWrapper>
           <TransactionTagWrapper>
-            <TransactionType>Transaction amount</TransactionType>
+            <TransactionType>Budget amount</TransactionType>
             <TransactionName>${transactionAmount ?? ''}</TransactionName>
           </TransactionTagWrapper>
           <TransactionTagWrapper>
             <EditButtonWrapper>
               <OutlineButton
-                testID="Transaction.Step.Congratulation"
+                testID="Budget.Step.Congratulation"
                 text={'Edit'}
                 accessibilityLabel="button.edit"
                 onPress={() => handleEdit()}
@@ -112,7 +112,7 @@ export const CongratulationStep: React.FC = () => {
       <VerticalDivider />
       <ButtonWrapper>
         <PrimaryButton
-          testID="Transaction.Step.Congratulation"
+          testID="Budget.Step.Congratulation"
           text={'Go to home '}
           accessibilityLabel="button.edit"
           onPress={() => handleFinishTransaction()}
