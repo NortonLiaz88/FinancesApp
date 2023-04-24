@@ -8,7 +8,8 @@ import {
   DescriptionWrapper,
   IdentificationWrapper,
 } from './styles';
-import { PrimaryIcon } from '../CategoryIcon/styles';
+import {PrimaryIcon} from '../CategoryIcon/styles';
+import {format} from 'date-fns';
 
 interface Props {
   icon: string;
@@ -17,7 +18,8 @@ interface Props {
   amount: string;
 }
 
-export const BudgetCard: React.FC<Props> = ({icon, name, amount, date}) => {
+export const 
+BudgetCard: React.FC<Props> = ({icon, name, amount, date}) => {
   return (
     <BudgetCardWrapper>
       <DescriptionWrapper>
@@ -26,10 +28,10 @@ export const BudgetCard: React.FC<Props> = ({icon, name, amount, date}) => {
         </BudgetIconWrapper>
         <IdentificationWrapper>
           <BudgetName>{name}</BudgetName>
-          <BudgetDate>{amount}</BudgetDate>
+          <BudgetDate>{format(new Date(date), 'dd/MM/yyyy')}</BudgetDate>
         </IdentificationWrapper>
       </DescriptionWrapper>
-      <AmountText>${date}</AmountText>
+      <AmountText>${amount}</AmountText>
     </BudgetCardWrapper>
   );
 };

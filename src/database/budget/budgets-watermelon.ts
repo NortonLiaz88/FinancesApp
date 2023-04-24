@@ -31,12 +31,13 @@ export class BudgetWatermelonRepository
     const budgetsCollection = database.get<Budget>('budgets');
     await database.write(async () => {
       await budgetsCollection.create(budget => {
-        (budget.transaction_id = currentBudget.id!),
+        (budget.budget_id = currentBudget.id!),
           (budget.date = currentBudget.date.getTime()),
           (budget.value = currentBudget.value.toString()),
           (budget.category = currentBudget.category),
           (budget.name = currentBudget.name),
           (budget.currency = 'currency');
+          console.log('Budget', budget)
       });
     });
   }

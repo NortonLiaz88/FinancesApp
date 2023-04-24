@@ -36,10 +36,11 @@ export class TransactionWatermelonRepository
           (transaction.transaction_id = currentTransaction.id!),
           (transaction.date = currentTransaction.date.getTime()),
           (transaction.value = currentTransaction.value.toString()),
-          (transaction.type = currentTransaction.type),
+          (transaction.type = currentTransaction.type!),
           (transaction.category = currentTransaction.category),
           (transaction.name = currentTransaction.name),
           (transaction.currency = 'currency');
+          console.log(transaction)
       });
     });
   };

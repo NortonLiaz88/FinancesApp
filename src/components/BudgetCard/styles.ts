@@ -13,6 +13,7 @@ export const BudgetCardWrapper = styled.View`
     padding: ${hp(1.8)}px ${wp(2)}px;
     border-radius: 16px;
     margin-right: 16px;
+    margin-top: 16px;
 `;
 
 export const DescriptionWrapper = styled.View`

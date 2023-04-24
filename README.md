@@ -2,9 +2,6 @@
 
 
 ### TODO:
-    - [ ] Adapt Routes
-    - [ ] Crete budgets
-    - [ ] Filter budgets by period
     - [ ] Create Finances Charts
     - [ ] Create Authentication
 
@@ -15,3 +12,6 @@
     - [X] Filter finances by period
     - [x] Home Screen
     - [x] Navigation's
+    - [x] Adapt Routes
+    - [x] Crete budgets
+    - [x] Filter budgets by period

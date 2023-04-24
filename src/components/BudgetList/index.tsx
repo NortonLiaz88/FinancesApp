@@ -17,10 +17,10 @@ export const BudgetList: React.FC<Props> = ({budgets, horizontal}) => {
       data={budgets}
       renderItem={({item}: ListRenderItemInfo<BudgetDTO>) => (
         <BudgetCard
-          key={item.id}
-          icon={item.category}
-          amount={item.value.toString()}
-          date={item.date.toISOString()}
+          key={item?.id}
+          icon={item?.category}
+          amount={item?.value?.toString()}
+          date={item?.date?.toISOString()}
           name={item.name}
         />
       )}

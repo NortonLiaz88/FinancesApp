@@ -21,9 +21,9 @@ import {CategoryComponent} from '../../../../../components/CategoryIcon';
 import {useBudget} from '../../../hooks/useBudgets';
 import {FinanceHeader} from '../../../../../components/FinanceHeader';
 import FinanceProgress from '../../../../../components/FinanceProgress';
-import { Input } from '../../../../../components/Input';
-import { expenseCategoryToIcon } from '../../../../../utils/expensetoIcon';
-import { ExpenseCategory } from '../../../../../data/models/Expense';
+import {Input} from '../../../../../components/Input';
+import {expenseCategoryToIcon} from '../../../../../utils/expensetoIcon';
+import {ExpenseCategory} from '../../../../../data/models/Expense';
 
 export const BudgetDescriptionStep: React.FC = () => {
   const {navigate} = useNavigation();
@@ -57,7 +57,7 @@ export const BudgetDescriptionStep: React.FC = () => {
       };
       await descriptionStepSchema.validate(data);
       updateStep();
-      navigate('CongratulationBudgetStep');
+      navigate('BudgetCongratulationStep');
     } catch (error) {
       if (error instanceof ValidationError) {
         toast.show(`Opa, ${error.message}`, {
@@ -75,7 +75,8 @@ export const BudgetDescriptionStep: React.FC = () => {
 
   return (
     <ExpenseDescriptionWrapper>
-      <FinanceHeader previousStep={previousStep} />
+      <FinanceHeader previousStep={previousStep} title="Add Budget" />
+
       <VerticalDivider />
       <FinanceProgress progress={stepProgress} />
       <CurrentCategoryWrapper>

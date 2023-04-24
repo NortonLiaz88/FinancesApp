@@ -53,7 +53,7 @@ export const BudgetCategoryStep: React.FC = () => {
       };
       await categoryStepSchema.validate(data);
       updateStep();
-      navigate('DescriptionBudgetStep');
+      navigate('BudgetDescriptionStep');
     } catch (error) {
       if (error instanceof ValidationError) {
         toast.show(`Opa, ${error.message}`, {
@@ -71,7 +71,7 @@ export const BudgetCategoryStep: React.FC = () => {
 
   return (
     <ExpenseWrapper>
-      <FinanceHeader previousStep={previousStep} />
+      <FinanceHeader previousStep={previousStep} title='Add Budget' />
       <VerticalDivider />
       <FinanceProgress progress={stepProgress} />
       <CurrentCategoryWrapper>
@@ -93,15 +93,15 @@ export const BudgetCategoryStep: React.FC = () => {
       <InputWrapper>
         <Input
           onChangeText={value => setTransactionName(value)}
-          label={strings.transaction.expenseSteps.addTransactionStep.inputLabel}
+          label={strings.budget.addTransactionStep.inputLabel}
           placeholder={
-            strings.transaction.expenseSteps.addTransactionStep.inputPlaceholder
+            strings.budget.addTransactionStep.inputPlaceholder
           }
         />
       </InputWrapper>
       <CategoriesWrapper>
         <CategoriesDescription>
-          {strings.transaction.expenseSteps.addTransactionStep.chooseCategory}
+          {strings.budget.addTransactionStep.chooseCategory}
         </CategoriesDescription>
         <CategoriesContentWrapper>
           <>

@@ -86,7 +86,7 @@ function BudgetProvider({children}: BudgetProviderProps) {
   const [creatingTransaction, setCreatingTransaction] = useState(false);
 
 
-  const steps = 4;
+  const steps = 3;
 
   const stepProgress = useMemo(() => {
     const progress = step / steps;
@@ -164,10 +164,10 @@ function BudgetProvider({children}: BudgetProviderProps) {
       });
     }
   }, [
-    // transactionDate,
-    // transactionAmount,
-    // transactionCategory,
-    // transactionName,
+    transactionDate,
+    transactionAmount,
+    transactionCategory,
+    transactionName,
   ]);
 
   const cancelTransaction = useCallback(() => {
@@ -181,7 +181,18 @@ function BudgetProvider({children}: BudgetProviderProps) {
 
   const makeTransactions = (budgets: Budget[]): BudgetDTO[] => {
     const currentTransactions: BudgetDTO [] = budgets.map(
-      transaction => transaction._raw as unknown as BudgetDTO,
+      transaction => {
+        const data = transaction._raw as unknown as Budget;
+        const currentBudget: BudgetDTO = {
+          category: data.category as ExpenseCategory,
+          currency: data.currency as Currency,
+          date: new Date(data.date),
+          name: data.name,
+          value: +data.value,
+          id: data.id,
+        }
+        return currentBudget;
+      }
     );
     return currentTransactions;
   };
@@ -224,7 +235,7 @@ function BudgetProvider({children}: BudgetProviderProps) {
         });
       }
     },
-    [],
+    [selectedDate],
   );
 
   const loadFinanceByWeek = useCallback(
@@ -344,13 +355,13 @@ function BudgetProvider({children}: BudgetProviderProps) {
     setDateItemList(currentDateList);
   }, [periods]);
 
-  // useEffect(() => {
-  //   const initFinance = async () => {
-  //     await handleBudgetsByDate();
-  //   };
-  //   console.log('MONTHS', months);
-  //   initFinance();
-  // }, [selectedDate]);
+  useEffect(() => {
+    const initFinance = async () => {
+      await handleBudgetsByDate();
+    };
+    console.log('MONTHS', months);
+    initFinance();
+  }, [selectedDate]);
 
   return (
     <BudgetContext.Provider

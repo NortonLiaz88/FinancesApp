@@ -26,10 +26,10 @@ import {toTitleCase} from '../../../../../utils/titleCase';
 import {DotedLine} from '../../../../../components/DotedLine';
 import OutlineButton from '../../../../../components/OutlineButton';
 import PrimaryButton from '../../../../../components/PrimaryButton';
-import { useBudget } from '../../../hooks/useBudgets';
-import { FinanceHeader } from '../../../../../components/FinanceHeader';
+import {useBudget} from '../../../hooks/useBudgets';
+import {FinanceHeader} from '../../../../../components/FinanceHeader';
 import FinanceProgress from '../../../../../components/FinanceProgress';
-import { format } from 'date-fns';
+import {format} from 'date-fns';
 
 export const BudgetCongratulationStep: React.FC = () => {
   const {
@@ -42,22 +42,21 @@ export const BudgetCongratulationStep: React.FC = () => {
     transactionAmount,
   } = useBudget();
 
-
   const handleFinishTransaction = async () => {
     await finishTransaction();
-  }
+  };
 
   const handleEdit = async () => {
-    editTransaction()
-    
-  }
+    editTransaction();
+  };
 
   const spacing = 16;
   const dashes = new Array(Math.floor(wp(100) / spacing)).fill(null);
 
   return (
     <CongratulationWrapper>
-      <FinanceHeader  previousStep={previousStep}/>
+      <FinanceHeader previousStep={previousStep} title="Add Budget" />
+
       <VerticalDivider />
       <FinanceProgress progress={stepProgress} />
       <ContentWrapper>
@@ -72,16 +71,16 @@ export const BudgetCongratulationStep: React.FC = () => {
 
       <TransactionContentWrapper>
         <TransactionTagWrapper>
-          <TransactionType>
-            {'Budget name'}
-          </TransactionType>
+          <TransactionType>{'Budget name'}</TransactionType>
           <TransactionName>{toTitleCase(transactionName)}</TransactionName>
         </TransactionTagWrapper>
         <VerticalDivider />
         <TransactionDetailWrapper>
           <TransactionTagWrapper>
             <TransactionType>Transaction type</TransactionType>
-            <TransactionName>{format(transactionDate, 'HH:mm')}</TransactionName>
+            <TransactionName>
+              {format(transactionDate, 'HH:mm')}
+            </TransactionName>
           </TransactionTagWrapper>
           <DetailSeparator />
           <TransactionTagWrapper>

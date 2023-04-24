@@ -8,7 +8,7 @@ class Transaction extends Model {
   static table = 'transactions';
  
   @field("transaction_id")
-  budget_id!: string;
+  transaction_id!: string;
 
   @field("date")
   date!: number;
@@ -16,6 +16,9 @@ class Transaction extends Model {
   @field("value")
   value!: string;
 
+  @field("type")
+  type!: string;
+  
   @field("category")
   category!: string;
 

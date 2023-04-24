@@ -15,13 +15,13 @@ export const strings = {
   },
   transaction: {
     firstStep: {
-      title: 'What kind of\ntransaction it is?'
+      title: 'What kind of\ntransaction it is?',
     },
     expenseSteps: {
       addTransactionStep: {
         inputLabel: 'Payye name',
         inputPlaceholder: 'Enter payye name',
-        chooseCategory: 'Choose Category'
+        chooseCategory: 'Choose Category',
       },
       descriptionStep: {
         inputAmount: {
@@ -30,13 +30,35 @@ export const strings = {
         },
         inputDate: {
           label: 'Date',
-          placeholder: 'Select date'
-        }
+          placeholder: 'Select date',
+        },
       },
     },
     lastStep: {
       title: 'Congratulation!',
-      message: 'Your transaction is added succeessfully in expence'
-    }
-  }
+      message: 'Your transaction is added successfully',
+    },
+  },
+  budget: {
+    addTransactionStep: {
+      inputLabel: 'Budget name',
+      inputPlaceholder: 'Enter budget name',
+      chooseCategory: 'Choose Category',
+    },
+    descriptionStep: {
+      inputAmount: {
+        label: 'Amount',
+        placeholder: 'Enter amount',
+      },
+      inputDate: {
+        label: 'Date',
+        placeholder: 'Select date',
+      },
+    },
+    lastStep: {
+      title: 'Congratulation!',
+      message: 'Your budget is added successfully',
+    },
+  },
+
 };

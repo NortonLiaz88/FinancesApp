@@ -5,9 +5,10 @@ import {useNavigation} from '@react-navigation/native';
 interface Props {
   backAction?: () => void;
   previousStep: () => void;
+  title: string;
 }
 
-export const FinanceHeader: React.FC<Props> = ({backAction, previousStep}) => {
+export const FinanceHeader: React.FC<Props> = ({backAction, previousStep, title}) => {
   const {goBack} = useNavigation();
 
   const handleBack = () => {
@@ -20,7 +21,7 @@ export const FinanceHeader: React.FC<Props> = ({backAction, previousStep}) => {
       <ButtonWrapper onPress={handleBack} >
         <BackButton />
       </ButtonWrapper>
-      <Title>Add Transaction</Title>
+      <Title>{title}</Title>
     </HeaderWrapper>
   );
 };

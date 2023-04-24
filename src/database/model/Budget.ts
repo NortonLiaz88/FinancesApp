@@ -5,19 +5,16 @@ import { IncomeCategory } from '../../data/models/Income';
 import { AmountType } from '../../data/models/Transaction';
 
 class Budget extends Model {
-  static table = 'transactions';
+  static table = 'budgets';
  
-  @field("transaction_id")
-  transaction_id!: string;
+  @field("budget_id")
+  budget_id!: string;
 
   @field("date")
   date!: number;
 
   @field("value")
   value!: string;
-
-  @field("type")
-  type!: string;
 
   @field("category")
   category!: string;
