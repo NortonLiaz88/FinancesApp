@@ -2,6 +2,7 @@
 
 
 ### TODO:
+    - [ ] Adapt Routes
     - [ ] Crete budgets
     - [ ] Filter budgets by period
     - [ ] Create Finances Charts
