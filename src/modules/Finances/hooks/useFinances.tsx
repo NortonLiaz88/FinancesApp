@@ -213,7 +213,7 @@ function FinancesProvider({children}: FinancesProviderProps) {
         ]);
         break;
     }
-  }, [handleSelectDate, selectedDate]);
+  }, [selectedDate]);
 
   const incomeTotal = useMemo(() => {
     let total = 0;
@@ -246,13 +246,13 @@ function FinancesProvider({children}: FinancesProviderProps) {
     setDateItemList(currentDateList);
   }, [periods]);
 
-  useEffect(() => {
-    const initFinance = async () => {
-      await handleFinancesByDate();
-    };
-    console.log('MONTHS', months)
-    initFinance();
-  }, [selectedDate]);
+  // useEffect(() => {
+  //   const initFinance = async () => {
+  //     await handleFinancesByDate();
+  //   };
+  //   console.log('MONTHS', months)
+  //   initFinance();
+  // }, [selectedDate]);
   
 
   return (

@@ -1,29 +1,29 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import {TransactionStackRoutes} from './app.transaction.stack.routes';
-import {HomeScreen} from '../screens/Home';
+import {BudgetScreen} from '../screens/Budget';
+import {BudgetStackRoutes} from './app.budget.stack.routes';
 
 export type RootStackParamList = {
-  Home: undefined;
-  Transaction: undefined;
+  HomeBudget: undefined;
+  BudgetTransaction: undefined;
   Splash: undefined;
 };
 
 const {Navigator, Screen} = createStackNavigator<RootStackParamList>();
 
-export const HomeStackRoutes = (): JSX.Element => {
+export const HomeBudgetStackRoutes = (): JSX.Element => {
   return (
-    <Navigator initialRouteName="Home">
+    <Navigator initialRouteName="HomeBudget">
       <Screen
-        name="Home"
-        component={HomeScreen}
+        name="HomeBudget"
+        component={BudgetScreen}
         options={{
           headerShown: false,
         }}
       />
       <Screen
-        name="Transaction"
-        component={TransactionStackRoutes}
+        name="BudgetTransaction"
+        component={BudgetStackRoutes}
         options={{
           headerShown: false,
         }}

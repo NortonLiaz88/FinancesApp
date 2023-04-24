@@ -3,7 +3,7 @@ import {FinanceFilter} from '../../components/FinanceFilter';
 import {strings} from '../../values/strings';
 import {useBudget} from '../../modules/Budget/hooks/useBudgets';
 import {BudgetList} from '../../components/BudgetList';
-import { PageWrapper } from './styles';
+import {PageWrapper} from './styles';
 import PrimaryButton from '../../components/PrimaryButton';
 
 export const BudgetScreen: React.FC = () => {
@@ -15,6 +15,7 @@ export const BudgetScreen: React.FC = () => {
     selectedPeriod: selectedBudgetPeriod,
     handleBudgetPeriod,
     handleSelectDate: handleSelectBudgetDate,
+    beginTransaction,
   } = useBudget();
 
   return (
@@ -29,7 +30,12 @@ export const BudgetScreen: React.FC = () => {
         selectedPeriod={selectedBudgetPeriod}
       />
       <BudgetList budgets={budgets} />
-      <PrimaryButton accessibilityLabel='Budget.Create' testID='Budget.Create' text='Create a budget'/>
+      <PrimaryButton
+        accessibilityLabel="Budget.Create"
+        testID="Budget.Create"
+        text="Create a budget"
+        onPress={beginTransaction}
+      />
     </PageWrapper>
   );
 };

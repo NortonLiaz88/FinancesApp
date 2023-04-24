@@ -22,6 +22,8 @@ import {useBudget} from '../../../hooks/useBudgets';
 import {FinanceHeader} from '../../../../../components/FinanceHeader';
 import FinanceProgress from '../../../../../components/FinanceProgress';
 import { Input } from '../../../../../components/Input';
+import { expenseCategoryToIcon } from '../../../../../utils/expensetoIcon';
+import { ExpenseCategory } from '../../../../../data/models/Expense';
 
 export const BudgetDescriptionStep: React.FC = () => {
   const {navigate} = useNavigation();
@@ -80,8 +82,8 @@ export const BudgetDescriptionStep: React.FC = () => {
         {transactionExpenseCategory && (
           <CategoryWrapper>
             <CategoryComponent
-              icon={incomeCategoryToIcon(
-                transactionExpenseCategory as IncomeCategory,
+              icon={expenseCategoryToIcon(
+                transactionExpenseCategory as ExpenseCategory,
               )}
             />
             <CategoryName>

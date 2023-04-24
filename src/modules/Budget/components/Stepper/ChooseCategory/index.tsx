@@ -26,6 +26,8 @@ import {useBudget} from '../../../hooks/useBudgets';
 import {FinanceHeader} from '../../../../../components/FinanceHeader';
 import FinanceProgress from '../../../../../components/FinanceProgress';
 import {Input} from '../../../../../components/Input';
+import {ExpenseCategory} from '../../../../../data/models/Expense';
+import {expenseCategoryToIcon} from '../../../../../utils/expensetoIcon';
 
 export const BudgetCategoryStep: React.FC = () => {
   const {navigate} = useNavigation();
@@ -76,8 +78,8 @@ export const BudgetCategoryStep: React.FC = () => {
         {transactionExpenseCategory && (
           <CategoryWrapper>
             <CategoryComponent
-              icon={incomeCategoryToIcon(
-                transactionExpenseCategory as IncomeCategory,
+              icon={expenseCategoryToIcon(
+                transactionExpenseCategory as ExpenseCategory,
               )}
             />
 
@@ -103,11 +105,11 @@ export const BudgetCategoryStep: React.FC = () => {
         </CategoriesDescription>
         <CategoriesContentWrapper>
           <>
-            {Object.values(IncomeCategory).map(ele => {
+            {Object.values(ExpenseCategory).map(ele => {
               return (
                 <CategoryWrapper key={ele}>
                   <CategoryComponent
-                    icon={incomeCategoryToIcon(ele)}
+                    icon={expenseCategoryToIcon(ele)}
                     onPress={() => setTransactionExpenseCategory(ele)}
                   />
                   <CategoryName>{toTitleCase(ele) ?? ''}</CategoryName>

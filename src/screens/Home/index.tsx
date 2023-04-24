@@ -37,14 +37,14 @@ export const HomeScreen: React.FC = () => {
     handleSelectDate: handleSelectBudgetDate,
   } = useBudget();
 
-  const {beginTransaction, finishTransaction} = useTransaction();
+  const {beginTransaction} = useTransaction();
 
   useEffect(() => {
     const initFinance = async () => {
       await handleFinancesByDate();
     };
     initFinance();
-  }, [finishTransaction]);
+  }, []);
 
   const handleCreateTransaction = () => {
     beginTransaction();

@@ -4,6 +4,8 @@ import {RFValue} from 'react-native-responsive-fontsize';
 import {TabIcon} from '../components/TabIcon';
 import theme from '../styles/theme';
 import {BudgetScreen} from '../screens/Budget';
+import { HomeStackRoutes } from './app.home.stack.routes';
+import { HomeBudgetStackRoutes } from './app.home.budget.stack.routes ';
 const Tab = createBottomTabNavigator();
 
 export const AppTabRoutes = () => {
@@ -25,7 +27,7 @@ export const AppTabRoutes = () => {
       }}>
       <Tab.Screen
         name="Home"
-        component={HomeScreen}
+        component={HomeStackRoutes}
         options={{
           tabBarIcon: ({focused}) => {
             return <TabIcon active={focused} icon="home" />;
@@ -45,14 +47,14 @@ export const AppTabRoutes = () => {
       />
       <Tab.Screen
         name="Budget"
-        component={BudgetScreen}
+        component={HomeBudgetStackRoutes}
         options={{
           tabBarIcon: ({focused}) => {
             return <TabIcon active={focused} icon="file-directory" />;
           },
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Person"
         component={HomeScreen}
         options={{
@@ -60,7 +62,7 @@ export const AppTabRoutes = () => {
             return <TabIcon active={focused} icon="person" />;
           },
         }}
-      />
+      /> */}
     </Tab.Navigator>
   );
 };

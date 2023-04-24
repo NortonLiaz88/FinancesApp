@@ -14,4 +14,4 @@
     - [x] Load Transactions
     - [X] Filter finances by period
     - [x] Home Screen
-    - [x] Navigations
+    - [x] Navigation's

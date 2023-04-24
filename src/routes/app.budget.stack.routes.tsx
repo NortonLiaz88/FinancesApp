@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
-import {TransactionScreen} from '../screens/Transaction';
 import {createStackNavigator} from '@react-navigation/stack';
-import {CategoryStep} from '../modules/Transaction/components/Stepper/ChooseCategory';
-import { CongratulationStep } from '../modules/Transaction/components/Stepper/CongratulationStep';
-import { DescriptionStep } from '../modules/Transaction/components/Stepper/Description';
 import { BackHandler } from 'react-native';
+import { BudgetCategoryStep } from '../modules/Budget/components/Stepper/ChooseCategory';
+import { BudgetDescriptionStep } from '../modules/Budget/components/Stepper/Description';
+import { BudgetCongratulationStep } from '../modules/Budget/components/Stepper/CongratulationStep';
 
 export type RootStackParamList = {
   BudgetTransactionHome: undefined;
@@ -27,29 +26,22 @@ export const BudgetStackRoutes = (): JSX.Element => {
   return (
       <Navigator initialRouteName="BudgetTransactionHome">
         <Screen
-          name="BudgetTransactionHome"
-          component={TransactionScreen}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Screen
           name="BudgetCategoryStep"
-          component={CategoryStep}
+          component={BudgetCategoryStep}
           options={{
             headerShown: false,
           }}
         />
         <Screen
           name="BudgetDescriptionStep"
-          component={DescriptionStep}
+          component={BudgetDescriptionStep}
           options={{
             headerShown: false,
           }}
         />
         <Screen
           name="BudgetCongratulationStep"
-          component={CongratulationStep}
+          component={BudgetCongratulationStep}
           options={{
             headerShown: false,
           }}

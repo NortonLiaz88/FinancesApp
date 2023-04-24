@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {InputText, InputWrapper, Label} from './styles';
 import {TextInputProps} from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome5';
-import theme from '../../../../styles/theme';
+import theme from '../../styles/theme';
 interface InputProps extends TextInputProps {
   iconName?: React.ComponentProps<typeof FontAwesome>['name'];
   value?: string;

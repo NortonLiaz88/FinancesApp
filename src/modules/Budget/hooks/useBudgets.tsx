@@ -21,6 +21,7 @@ import * as RootNavigation from '../../../utils/rootNavigation';
 import { Currency } from '../../../data/models/Currency';
 import { IncomeCategory } from '../../../data/models/Income';
 import { ObjectSchema, date, number, object, string } from 'yup';
+import { ExpenseCategory } from '../../../data/models/Expense';
 
 interface BudgetContextData {
   budgets: BudgetDTO[];
@@ -40,7 +41,7 @@ interface BudgetContextData {
   transactionName: string;
   transactionAmount: number;
   stepProgress: number;
-  transactionExpenseCategory:  IncomeCategory | undefined;
+  transactionExpenseCategory:  ExpenseCategory | undefined;
   creatingTransaction: boolean;
   transactionDate: Date;
   categoryStepSchema: ObjectSchema<any>;
@@ -53,7 +54,7 @@ interface BudgetContextData {
   beginTransaction: () => void;
   cancelTransaction: () => void;
   
-  setTransactionCategory: (category:  IncomeCategory) => void;
+  setTransactionCategory: (category:  ExpenseCategory) => void;
   setTransactionName: (value: string) => void;
   setTransactionDate: (value: Date) => void;
   setTransactionAmount: (value: number) => void;
@@ -81,7 +82,7 @@ function BudgetProvider({children}: BudgetProviderProps) {
   const [transactionName, setTransactionName] = useState('');
   const [transactionDate, setTransactionDate] = useState<Date>(new Date());
   const [transactionAmount, setTransactionAmount] = useState(0);
-  const [transactionCategory, setTransactionExpenseCategory] = useState<IncomeCategory>();
+  const [transactionCategory, setTransactionExpenseCategory] = useState<ExpenseCategory>();
   const [creatingTransaction, setCreatingTransaction] = useState(false);
 
 
@@ -126,7 +127,7 @@ function BudgetProvider({children}: BudgetProviderProps) {
 
   const beginTransaction = useCallback(() => {
     setCreatingTransaction(true);
-    RootNavigation.push('Transaction');
+    RootNavigation.push('BudgetTransaction');
   }, []);
 
   const finishTransaction = useCallback(async () => {
@@ -163,10 +164,10 @@ function BudgetProvider({children}: BudgetProviderProps) {
       });
     }
   }, [
-    transactionDate,
-    transactionAmount,
-    transactionCategory,
-    transactionName,
+    // transactionDate,
+    // transactionAmount,
+    // transactionCategory,
+    // transactionName,
   ]);
 
   const cancelTransaction = useCallback(() => {
@@ -178,9 +179,6 @@ function BudgetProvider({children}: BudgetProviderProps) {
     flushTransactionVariables();
   }, [creatingTransaction]);
 
-
-
-  
   const makeTransactions = (budgets: Budget[]): BudgetDTO[] => {
     const currentTransactions: BudgetDTO [] = budgets.map(
       transaction => transaction._raw as unknown as BudgetDTO,
@@ -226,7 +224,7 @@ function BudgetProvider({children}: BudgetProviderProps) {
         });
       }
     },
-    [selectedDate],
+    [],
   );
 
   const loadFinanceByWeek = useCallback(
@@ -329,7 +327,7 @@ function BudgetProvider({children}: BudgetProviderProps) {
         ]);
         break;
     }
-  }, [handleSelectDate, selectedDate]);
+  }, [selectedDate]);
 
   useEffect(() => {
     const currentDateList: DateItemType[] = periods?.format?.map(
@@ -346,13 +344,13 @@ function BudgetProvider({children}: BudgetProviderProps) {
     setDateItemList(currentDateList);
   }, [periods]);
 
-  useEffect(() => {
-    const initFinance = async () => {
-      await handleBudgetsByDate();
-    };
-    console.log('MONTHS', months);
-    initFinance();
-  }, [selectedDate]);
+  // useEffect(() => {
+  //   const initFinance = async () => {
+  //     await handleBudgetsByDate();
+  //   };
+  //   console.log('MONTHS', months);
+  //   initFinance();
+  // }, [selectedDate]);
 
   return (
     <BudgetContext.Provider
