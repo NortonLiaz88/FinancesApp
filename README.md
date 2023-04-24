@@ -4,7 +4,7 @@
 ### TODO:
     - [ ] Create Finances Charts
     - [ ] Create Authentication
-
+    - [ ] Add Currency conversion 
 ### Completed:
     - [x] Create Transaction
     - [x] Storage Transactions
@@ -15,3 +15,6 @@
     - [x] Adapt Routes
     - [x] Crete budgets
     - [x] Filter budgets by period
+
+
+<!-- https://www.exchangerate-api.com/ -->
